@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:bibliopole
+  sql:
+    show: true
+    init:
+      mode: always
+      data-locations: data.sql
+      schema-locations: schema.sql
+  h2:
+    console:
+      path: /h2-console
+      settings:
+        web-allow-others: true
+  output:
+    ansi:
+      enabled: always
+  main:
+    allow-circular-references: true
