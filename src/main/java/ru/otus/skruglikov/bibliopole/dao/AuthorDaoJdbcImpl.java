@@ -10,14 +10,15 @@ import ru.otus.skruglikov.bibliopole.exception.AuthorNotFoundDaoException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
 public class AuthorDaoJdbcImpl implements AuthorDao {
 
     private final NamedParameterJdbcOperations jdbc;
+    private final static AuthorRowMapper AUTHOR_ROW_MAPPER = new AuthorRowMapper();
 
     @Override
     public Author readById(final long id) {
@@ -26,9 +27,9 @@ public class AuthorDaoJdbcImpl implements AuthorDao {
             author = jdbc.queryForObject("select a.id, a.first_name, a.last_name, a.patronymic_name " +
                             " from author a " +
                             " where a.id = :id",
-                    Map.of("id", id), new AuthorRowMapper());
+                    Collections.singletonMap("id",id), AUTHOR_ROW_MAPPER);
         } catch (EmptyResultDataAccessException e) {
-            throw new AuthorNotFoundDaoException(id);
+            throw new AuthorNotFoundDaoException("указан не корретный id автора книги - " + id);
         }
         return author;
     }
@@ -36,10 +37,10 @@ public class AuthorDaoJdbcImpl implements AuthorDao {
     @Override
     public List<Author> readAllAuthors() {
         return jdbc.query("select a.id, a.first_name, a.last_name, a.patronymic_name from author a",
-                new AuthorRowMapper());
+                AUTHOR_ROW_MAPPER);
     }
 
-    private class AuthorRowMapper implements RowMapper<Author> {
+    private static class AuthorRowMapper implements RowMapper<Author> {
         @Override
         public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new Author(rs.getLong("id"), rs.getString("first_name"), rs.getString("last_name")

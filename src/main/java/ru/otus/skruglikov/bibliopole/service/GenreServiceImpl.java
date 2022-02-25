@@ -14,8 +14,8 @@ public class GenreServiceImpl implements GenreService {
     private final GenreDao genreDao;
 
     @Override
-    public Genre readByCode(String genreCode) {
-        return genreDao.readByCode(genreCode);
+    public Genre readById(long genreId) {
+        return genreDao.readById(genreId);
     }
 
     @Override

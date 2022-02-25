@@ -14,7 +14,7 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorDao authorDao;
 
     @Override
-    public Author readById(long authorId) {
+    public Author readById(Long authorId) {
         return authorDao.readById(authorId);
     }
 

@@ -10,38 +10,39 @@ import ru.otus.skruglikov.bibliopole.exception.GenreNotFoundDaoException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
 public class GenreDaoJdbcImpl implements GenreDao {
 
     private final NamedParameterJdbcOperations jdbc;
+    private final static GenreRowMapper GENRE_ROW_MAPPER = new GenreRowMapper();
 
     @Override
-    public Genre readByCode(final String code) {
+    public Genre readById(final long id) {
         final Genre genre;
         try {
-            genre = jdbc.queryForObject("select g.code, g.name " +
+            genre = jdbc.queryForObject("select g.id, g.name " +
                             " from genre g " +
-                            " where g.code = :code ",
-                    Map.of("code", code), new GenreRowMapper());
+                            " where g.id = :id ",
+                    Collections.singletonMap("id", id), GENRE_ROW_MAPPER);
         } catch (EmptyResultDataAccessException e) {
-            throw new GenreNotFoundDaoException(code);
+            throw new GenreNotFoundDaoException("указан не корректный код жанра - " + id);
         }
         return genre;
     }
 
     @Override
     public List<Genre> readAllGenres() {
-        return jdbc.query("select g.code, g.name from genre g ", new GenreRowMapper());
+        return jdbc.query("select g.id, g.name from genre g ", GENRE_ROW_MAPPER);
     }
 
-    private class GenreRowMapper implements RowMapper<Genre> {
+    private static class GenreRowMapper implements RowMapper<Genre> {
         @Override
         public Genre mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Genre(rs.getString("code"), rs.getString("name"));
+            return new Genre(rs.getLong("id"), rs.getString("name"));
         }
     }
 }

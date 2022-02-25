@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GenreService {
 
-    Genre readByCode(String genreCode);
+    Genre readById(long genreId);
 
     List<Genre> readAllGenres();
 

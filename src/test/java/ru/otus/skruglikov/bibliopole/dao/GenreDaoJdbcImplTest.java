@@ -21,18 +21,18 @@ class GenreDaoJdbcImplTest {
     @Autowired
     private GenreDaoJdbcImpl genreDao;
 
-    @DisplayName("возвращать жанр по указанному code")
+    @DisplayName("возвращать жанр по указанному id")
     @Test
-    void shouldReadGenreByCode() {
-        final Genre expectedGenre = new Genre("test_code", "тест жанр");
-        assertEquals(expectedGenre,genreDao.readByCode("test_code"));
+    void shouldReadGenreById() {
+        final Genre expectedGenre = new Genre(1, "тест жанр");
+        assertEquals(expectedGenre,genreDao.readById(1));
     }
 
     @DisplayName("возвращать список всех жанров")
     @Test
     void shouldReadAllGenres() {
-        final List<Genre> expectedGenreList = List.of(new Genre("test_code", "тест жанр"),
-                new Genre("test_code2", "тест жанр2"));
+        final List<Genre> expectedGenreList = List.of(new Genre(1, "тест жанр"),
+                new Genre(2, "тест жанр2"));
         assertThat(genreDao.readAllGenres())
                 .containsExactlyInAnyOrderElementsOf(expectedGenreList);
     }
@@ -40,6 +40,6 @@ class GenreDaoJdbcImplTest {
     @DisplayName("возвращать ошибку если жанр не найден")
     @Test
     void shouldThrowGenreNotFoundException() {
-        assertThrowsExactly(GenreNotFoundDaoException.class,() -> genreDao.readByCode("fake code"));
+        assertThrowsExactly(GenreNotFoundDaoException.class,() -> genreDao.readById(99));
     }
 }

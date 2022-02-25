@@ -29,7 +29,7 @@ class BookDaoJdbcImplTest {
     @DisplayName("возвращать книгу по указанному id")
     @Test
     void shouldReadGenreById() {
-        final Book expectedBook = new Book(1L, "Тестовая книга", genreDao.readByCode("test_code"),
+        final Book expectedBook = new Book(1L, "Тестовая книга", genreDao.readById(1L),
                 authorDao.readById(1L));
         assertThat(bookDao.readById(1))
                 .usingRecursiveComparison()
@@ -39,7 +39,7 @@ class BookDaoJdbcImplTest {
     @DisplayName("добавлять книгу")
     @Test
     void shouldAddBook() {
-        final Book expectedBook = new Book(3L,"Тестовая книга3", genreDao.readByCode("test_code2"),
+        final Book expectedBook = new Book(3L,"Тестовая книга3", genreDao.readById(2L),
                 authorDao.readById(2L));
         bookDao.add(expectedBook);
         assertThat(bookDao.readById(3L))
@@ -61,7 +61,7 @@ class BookDaoJdbcImplTest {
     @DisplayName("обновлять данные по книге")
     @Test
     void shouldUpdateBook() {
-        final Book bookToUpdate = new Book(1L,"Тестовая книга новое",genreDao.readByCode("test_code2"),
+        final Book bookToUpdate = new Book(1L,"Тестовая книга новое",genreDao.readById(2L),
                 authorDao.readById(2));
         assertThat(bookDao.readById(1L))
                 .usingRecursiveComparison()
@@ -78,8 +78,8 @@ class BookDaoJdbcImplTest {
     void shouldReadAllBooks() {
         assertThat(bookDao.readAll())
                 .containsExactlyInAnyOrderElementsOf(List.of(
-                                new Book(1L,"Тестовая книга", genreDao.readByCode("test_code"), authorDao.readById(1)),
-                                new Book(2L, "Тестовая книга2", genreDao.readByCode("test_code2"), authorDao.readById(2))
+                                new Book(1L,"Тестовая книга", genreDao.readById(1L), authorDao.readById(1L)),
+                                new Book(2L, "Тестовая книга2", genreDao.readById(2L), authorDao.readById(2L))
                         )
                 );
     }

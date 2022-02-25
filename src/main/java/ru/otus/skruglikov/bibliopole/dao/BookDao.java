@@ -12,7 +12,7 @@ public interface BookDao {
 
     Book readById(long bookId);
 
-    void update(Book book);
+    boolean update(Book book);
 
-    void deleteById(long bookId);
+    boolean deleteById(long bookId);
 }

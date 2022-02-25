@@ -33,18 +33,17 @@ public class BookServiceImplTest {
     @DisplayName("добавлять новую книгу")
     @Test
     void shouldAddNewBook() {
-        final Genre newGenre = new Genre("test_code", "тест жанр");
-        final Author newAuthor = new Author(1L, "тест","тестов","тестович");
+        final Genre newGenre = new Genre(1, "тест жанр");
+        final Author newAuthor = new Author(1, "тест","тестов","тестович");
         final Book newBook = new Book(null, "Новая тестовая книга", newGenre, newAuthor);
         doNothing()
                 .when(bookDao)
                 .add(any());
         when(authorService.readById(eq(newAuthor.getId())))
                 .thenReturn(newAuthor);
-        when(genreService.readByCode(eq(newGenre.getCode())))
+        when(genreService.readById(eq(newGenre.getId())))
                 .thenReturn(newGenre);
-        final boolean result = bookService.createBook(newBook.getTitle(),newGenre.getCode(),newAuthor.getId());
-        assertTrue(result);
+        bookService.createBook(newBook.getTitle(),newGenre.getId(),newAuthor.getId());
         verify(bookDao,times(1)).add(newBook);
     }
 
@@ -52,9 +51,8 @@ public class BookServiceImplTest {
     @Test
     void shouldDeleteBookById() {
         final long bookId = 1L;
-        doNothing()
-                .when(bookDao)
-                .add(any());
+        when(bookDao.deleteById(bookId))
+                .thenReturn(true);
         when(bookDao.readById(bookId))
                 .thenReturn(new Book(bookId,null,null,null));
         final boolean result = bookService.deleteBook(bookId);
@@ -66,20 +64,19 @@ public class BookServiceImplTest {
     @DisplayName("обновлять данные по книге")
     @Test
     void shouldUpdateBook() {
-        final Genre newGenre = new Genre("test_code", "тест жанр");
-        final Author newAuthor = new Author(1L, "тест","тестов","тестович");
+        final Genre newGenre = new Genre(1, "тест жанр");
+        final Author newAuthor = new Author(1, "тест","тестов","тестович");
         final Book bookForUpdate = new Book(1L, "Новая тестовая книга", newGenre, newAuthor);
-        doNothing()
-                .when(bookDao)
-                .add(any());
+        when(bookDao.update(bookForUpdate))
+                .thenReturn(true);
         when(bookDao.readById(bookForUpdate.getId()))
                 .thenReturn(bookForUpdate);
         when(authorService.readById(eq(newAuthor.getId())))
                 .thenReturn(newAuthor);
-        when(genreService.readByCode(eq(newGenre.getCode())))
+        when(genreService.readById(eq(newGenre.getId())))
                 .thenReturn(newGenre);
         final boolean result = bookService.updateBook(bookForUpdate.getId(),bookForUpdate.getTitle(),
-                bookForUpdate.getGenre().getCode(),
+                bookForUpdate.getGenre().getId(),
                 bookForUpdate.getAuthor().getId());
         assertTrue(result);
         verify(bookDao,times(1)).update(bookForUpdate);
@@ -88,8 +85,8 @@ public class BookServiceImplTest {
     @DisplayName("возвращать книгу по id")
     @Test
     void shouldReadBookById() {
-        final Genre newGenre = new Genre("test_code", "тест жанр");
-        final Author newAuthor = new Author(1L, "тест","тестов","тестович");
+        final Genre newGenre = new Genre(1, "тест жанр");
+        final Author newAuthor = new Author(1, "тест","тестов","тестович");
         final Book expectedBook = new Book(1L, "Новая тестовая книга", newGenre, newAuthor);
         when(bookDao.readById(eq(expectedBook.getId())))
                 .thenReturn(expectedBook);
@@ -101,8 +98,8 @@ public class BookServiceImplTest {
     @DisplayName("возвращать все книги")
     @Test
     void shouldReadAllBooks() {
-        final Genre newGenre = new Genre("test_code", "тест жанр");
-        final Author newAuthor = new Author(1L, "тест","тестов","тестович");
+        final Genre newGenre = new Genre(1, "тест жанр");
+        final Author newAuthor = new Author(1, "тест","тестов","тестович");
         final List<Book> expectedBooks = List.of(new Book(1L, "Новая тестовая книга", newGenre, newAuthor),
                 new Book(2L, "Новая тестовая книга2", newGenre, newAuthor));
         when(bookDao.readAll())

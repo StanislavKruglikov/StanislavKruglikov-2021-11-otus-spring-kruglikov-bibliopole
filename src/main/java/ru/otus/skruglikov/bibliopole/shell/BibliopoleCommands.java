@@ -24,9 +24,9 @@ public class BibliopoleCommands {
     private final AuthorService authorService;
 
     @ShellMethod(value = "add book", key = {"ab"})
-    public String addBook(String title, String genre, long author) {
-        return bookService.createBook(title, genre, author) ? "\nКнига успешно добавлена" :
-                "\nПроизошла ошибка при выполнении комманды";
+    public String addBook(String title, long genre, long author) {
+        bookService.createBook(title, genre, author);
+        return  "\nКнига успешно добавлена";
     }
 
     @ShellMethod(value = "delete book", key = {"db"})
@@ -37,9 +37,9 @@ public class BibliopoleCommands {
     @ShellMethod(value = "update a book", key = {"ub"})
     public String updateBook(long id,
                              @ShellOption(defaultValue = NULL) String title,
-                             @ShellOption(defaultValue = NULL) String genre,
+                             @ShellOption(defaultValue = NULL) Long genre,
                              @ShellOption(defaultValue = NULL) Long author) {
-        return bookService.updateBook(id,title,genre,author) ? "\nКнига успешно обновлена" :
+        return bookService.updateBook(id, title, genre, author) ? "\nКнига успешно обновлена" :
                 "\nПроизошла ошибка при выполнении комманды";
     }
 

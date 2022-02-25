@@ -26,17 +26,17 @@ public class GenreServiceImplTest {
     @DisplayName("возвращать жанр по указанному id")
     @Test
     void shouldReadAuthorById() {
-        final Genre expectedGenre = new Genre("test_code","тест жанр");
-        when(genreDao.readByCode("test_code"))
+        final Genre expectedGenre = new Genre(1,"тест жанр");
+        when(genreDao.readById(1))
                 .thenReturn(expectedGenre);
-        assertEquals(expectedGenre,genreService.readByCode("test_code"));
+        assertEquals(expectedGenre,genreService.readById(1));
     }
 
     @DisplayName("возвращать все жанры")
     @Test
     void shouldReadAllAuthors() {
-        final List<Genre> expectedGenreList = List.of(new Genre("test_code","тест жанр"),
-                new Genre("test_code2","тест жанр2"));
+        final List<Genre> expectedGenreList = List.of(new Genre(1,"тест жанр"),
+                new Genre(2,"тест жанр2"));
         when(genreDao.readAllGenres())
                 .thenReturn(expectedGenreList);
         assertThat(genreService.readAllGenres())
