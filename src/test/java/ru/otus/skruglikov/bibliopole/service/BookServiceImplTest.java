@@ -3,9 +3,12 @@ package ru.otus.skruglikov.bibliopole.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import ru.otus.skruglikov.bibliopole.dao.AuthorDao;
 import ru.otus.skruglikov.bibliopole.dao.BookDao;
+import ru.otus.skruglikov.bibliopole.dao.GenreDao;
 import ru.otus.skruglikov.bibliopole.domain.Author;
 import ru.otus.skruglikov.bibliopole.domain.Book;
 import ru.otus.skruglikov.bibliopole.domain.Genre;
@@ -26,25 +29,25 @@ public class BookServiceImplTest {
     @MockBean
     private BookDao bookDao;
     @MockBean
-    private AuthorService authorService;
+    private AuthorDao authorDao;
     @MockBean
-    private GenreService genreService;
+    private GenreDao genreDao;
 
     @DisplayName("добавлять новую книгу")
     @Test
     void shouldAddNewBook() {
         final Genre newGenre = new Genre(1, "тест жанр");
         final Author newAuthor = new Author(1, "тест","тестов","тестович");
-        final Book newBook = new Book(null, "Новая тестовая книга", newGenre, newAuthor);
-        doNothing()
-                .when(bookDao)
-                .add(any());
-        when(authorService.readById(eq(newAuthor.getId())))
+        final Book newBook = new Book(0, "Новая тестовая книга", newGenre, newAuthor);
+        when(bookDao.save(any()))
+                .thenReturn(newBook);
+        when(authorDao.findById(eq(newAuthor.getId())))
                 .thenReturn(newAuthor);
-        when(genreService.readById(eq(newGenre.getId())))
+        when(genreDao.findById(eq(newGenre.getId())))
                 .thenReturn(newGenre);
         bookService.createBook(newBook.getTitle(),newGenre.getId(),newAuthor.getId());
-        verify(bookDao,times(1)).add(newBook);
+        verify(bookDao,times(1))
+                .save(newBook);
     }
 
     @DisplayName("удалять книгу по id")
@@ -53,7 +56,7 @@ public class BookServiceImplTest {
         final long bookId = 1L;
         when(bookDao.deleteById(bookId))
                 .thenReturn(true);
-        when(bookDao.readById(bookId))
+        when(bookDao.findById(bookId))
                 .thenReturn(new Book(bookId,null,null,null));
         final boolean result = bookService.deleteBook(bookId);
         assertTrue(result);
@@ -67,19 +70,19 @@ public class BookServiceImplTest {
         final Genre newGenre = new Genre(1, "тест жанр");
         final Author newAuthor = new Author(1, "тест","тестов","тестович");
         final Book bookForUpdate = new Book(1L, "Новая тестовая книга", newGenre, newAuthor);
-        when(bookDao.update(bookForUpdate))
-                .thenReturn(true);
-        when(bookDao.readById(bookForUpdate.getId()))
+        when(bookDao.save(bookForUpdate))
                 .thenReturn(bookForUpdate);
-        when(authorService.readById(eq(newAuthor.getId())))
+        when(bookDao.findById(bookForUpdate.getId()))
+                .thenReturn(bookForUpdate);
+        when(authorDao.findById(eq(newAuthor.getId())))
                 .thenReturn(newAuthor);
-        when(genreService.readById(eq(newGenre.getId())))
+        when(genreDao.findById(eq(newGenre.getId())))
                 .thenReturn(newGenre);
-        final boolean result = bookService.updateBook(bookForUpdate.getId(),bookForUpdate.getTitle(),
+        bookService.updateBook(bookForUpdate.getId(),bookForUpdate.getTitle(),
                 bookForUpdate.getGenre().getId(),
                 bookForUpdate.getAuthor().getId());
-        assertTrue(result);
-        verify(bookDao,times(1)).update(bookForUpdate);
+        verify(bookDao,times(1))
+                .save(bookForUpdate);
     }
 
     @DisplayName("возвращать книгу по id")
@@ -88,7 +91,7 @@ public class BookServiceImplTest {
         final Genre newGenre = new Genre(1, "тест жанр");
         final Author newAuthor = new Author(1, "тест","тестов","тестович");
         final Book expectedBook = new Book(1L, "Новая тестовая книга", newGenre, newAuthor);
-        when(bookDao.readById(eq(expectedBook.getId())))
+        when(bookDao.findById(eq(expectedBook.getId())))
                 .thenReturn(expectedBook);
         assertThat(bookService.readBookById(expectedBook.getId()))
                 .usingRecursiveComparison()

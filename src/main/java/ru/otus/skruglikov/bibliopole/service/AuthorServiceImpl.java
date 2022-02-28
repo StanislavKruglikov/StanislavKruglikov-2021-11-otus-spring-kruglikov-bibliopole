@@ -2,6 +2,7 @@ package ru.otus.skruglikov.bibliopole.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.skruglikov.bibliopole.dao.AuthorDao;
 import ru.otus.skruglikov.bibliopole.domain.Author;
 
@@ -14,11 +15,13 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorDao authorDao;
 
     @Override
+    @Transactional(readOnly = true)
     public Author readById(Long authorId) {
-        return authorDao.readById(authorId);
+        return authorDao.findById(authorId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Author> readAllAuthors() {
         return authorDao.readAllAuthors();
     }

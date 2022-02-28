@@ -11,7 +11,7 @@ public interface BookService {
 
     List<Book> readAllBooks();
 
-    boolean updateBook(long bookId, String bookTitle, Long genreId, Long authorId);
+    void updateBook(long bookId, String bookTitle, Long genreId, Long authorId);
 
     boolean deleteBook(long bookId);
 }

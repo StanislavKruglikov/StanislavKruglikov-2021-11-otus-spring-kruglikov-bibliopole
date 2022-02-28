@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GenreDao {
 
-    Genre readById(final long id);
+    Genre findById(final long id);
 
     List<Genre> readAllGenres();
 }

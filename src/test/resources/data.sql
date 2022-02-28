@@ -6,3 +6,7 @@ insert into AUTHOR (FIRST_NAME, LAST_NAME, PATRONYMIC_NAME) values ('тест2',
 
 insert into BOOK (TITLE, GENRE_ID, AUTHOR_ID) values ('Тестовая книга', 1, 1);
 insert into BOOK (TITLE, GENRE_ID, AUTHOR_ID) values ('Тестовая книга2', 2, 2);
+
+insert into COMMENT(TEXT, BOOK_ID) values('тест комментарий1', 1);
+insert into COMMENT(TEXT, BOOK_ID) values('тест комментарий2', 1);
+insert into COMMENT(TEXT, BOOK_ID) values('тест комментарий3', 2);

@@ -20,6 +20,7 @@ public class AuthorServiceImplTest {
 
     @Autowired
     private AuthorServiceImpl authorService;
+
     @MockBean
     private AuthorDao authorDao;
 
@@ -27,7 +28,7 @@ public class AuthorServiceImplTest {
     @Test
     void shouldReadAuthorById() {
         final Author expectedAuthor = new Author(1, "тест","тестов","тестович");
-        when(authorDao.readById(1L))
+        when(authorDao.findById(1L))
                 .thenReturn(expectedAuthor);
         assertEquals(expectedAuthor,authorService.readById(1L));
     }
