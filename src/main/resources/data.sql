@@ -10,3 +10,7 @@ insert into BOOK ( TITLE, GENRE_ID, AUTHOR_ID) values ( 'Гонка на выж�
 insert into BOOK ( TITLE, GENRE_ID, AUTHOR_ID) values ( 'Убийство в темном лесу', 2, 1);
 insert into BOOK ( TITLE, GENRE_ID, AUTHOR_ID) values ( 'Голос со звезды', 3, 2);
 insert into BOOK ( TITLE, GENRE_ID, AUTHOR_ID) values ( 'Чисто английское убийство', 2, 3);
+
+insert into COMMENT ( TEXT , BOOK_ID) values( 'Замечательное прозиведение, прочел на одном дыхании.', 1);
+insert into COMMENT ( TEXT , BOOK_ID) values( 'Захватывает сюжет.', 1);
+insert into COMMENT ( TEXT , BOOK_ID) values( 'Слегка затянуто, но почитать на досуге можно.', 2);

@@ -1,17 +1,20 @@
 spring:
   datasource:
     url: jdbc:h2:mem:bibliopole
+    driver-class-name: org.h2.Driver
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none
+    show-sql: true
   sql:
-    show: true
     init:
       mode: always
       data-locations: data.sql
       schema-locations: schema.sql
-  h2:
-    console:
-      path: /h2-console
-      settings:
-        web-allow-others: true
   output:
     ansi:
       enabled: always

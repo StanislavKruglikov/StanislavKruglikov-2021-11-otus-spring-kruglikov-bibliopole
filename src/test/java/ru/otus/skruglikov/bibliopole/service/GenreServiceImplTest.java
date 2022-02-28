@@ -27,7 +27,7 @@ public class GenreServiceImplTest {
     @Test
     void shouldReadAuthorById() {
         final Genre expectedGenre = new Genre(1,"тест жанр");
-        when(genreDao.readById(1))
+        when(genreDao.findById(1))
                 .thenReturn(expectedGenre);
         assertEquals(expectedGenre,genreService.readById(1));
     }
