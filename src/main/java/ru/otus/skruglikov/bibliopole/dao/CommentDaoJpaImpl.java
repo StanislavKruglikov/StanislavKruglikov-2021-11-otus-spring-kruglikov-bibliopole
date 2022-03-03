@@ -2,6 +2,7 @@ package ru.otus.skruglikov.bibliopole.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ru.otus.skruglikov.bibliopole.domain.Book;
 import ru.otus.skruglikov.bibliopole.domain.Comment;
 import ru.otus.skruglikov.bibliopole.exception.CommentNotFoundDaoException;
 
@@ -18,6 +19,8 @@ public class CommentDaoJpaImpl implements CommentDao {
     @PersistenceContext
     private final EntityManager em;
 
+    private final BookDao bookDao;
+
     @Override
     public Comment save(final Comment comment) {
         final Comment result;
@@ -31,19 +34,14 @@ public class CommentDaoJpaImpl implements CommentDao {
     }
 
     @Override
-    public List<Comment> findAll() {
-        TypedQuery<Comment> query = em.createQuery("select c from Comment c",Comment.class);
-        query.setHint("javax.persistence.fetchgraph",em.getEntityGraph("BookGenreAuthorGraph"));
-        return query.getResultList();
-    }
-
-    @Override
     public List<Comment> findAllCommentsByBookId(final long bookId) {
-        TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.book.id = :bookId",Comment.class);
-        query.setHint("javax.persistence.fetchgraph",em.getEntityGraph("BookGenreAuthorGraph"));
-        return query
-                .setParameter("bookId",bookId)
-                .getResultList();
+        final TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.book.id = :bookId",Comment.class);
+        final List<Comment> commentList = query.setParameter("bookId",bookId).getResultList();
+        if(commentList.size() > 0) {
+            final Book book = bookDao.findById(bookId);
+            commentList.forEach(c -> c.setBook(book));
+        }
+        return commentList;
     }
 
     @Override

@@ -3,7 +3,6 @@ package ru.otus.skruglikov.bibliopole.shell;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import org.springframework.shell.standard.ShellOption;
 import ru.otus.skruglikov.bibliopole.domain.Author;
 import ru.otus.skruglikov.bibliopole.domain.Book;
 import ru.otus.skruglikov.bibliopole.domain.Comment;
@@ -14,8 +13,6 @@ import ru.otus.skruglikov.bibliopole.service.CommentService;
 import ru.otus.skruglikov.bibliopole.service.GenreService;
 
 import java.util.List;
-
-import static org.springframework.shell.standard.ShellOption.NULL;
 
 @ShellComponent
 @RequiredArgsConstructor
@@ -65,11 +62,6 @@ public class BibliopoleCommands {
     @ShellMethod(value = "read all author", key = {"raa"})
     public List<Author> readAllAuthors() {
         return authorService.readAllAuthors();
-    }
-
-    @ShellMethod(value = "read all comment", key = {"rac"})
-    public List<Comment> readAllComments() {
-        return commentService.readAllComments();
     }
 
     @ShellMethod(value = "add comment", key = {"ac"})

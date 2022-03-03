@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface CommentDao {
 
-    List<Comment> findAll();
-
     Comment findById(long id);
 
     List<Comment> findAllCommentsByBookId(long bookId);

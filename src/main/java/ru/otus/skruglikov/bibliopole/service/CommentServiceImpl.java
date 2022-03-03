@@ -36,12 +36,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Comment> readAllComments() {
-        return commentDao.findAll();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public List<Comment> readAllCommentsByBookId(final long bookId) {
         return commentDao.findAllCommentsByBookId(bookId);
     }

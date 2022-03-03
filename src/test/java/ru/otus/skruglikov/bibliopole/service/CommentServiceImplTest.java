@@ -3,13 +3,10 @@ package ru.otus.skruglikov.bibliopole.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.otus.skruglikov.bibliopole.dao.AuthorDao;
 import ru.otus.skruglikov.bibliopole.dao.BookDao;
 import ru.otus.skruglikov.bibliopole.dao.CommentDao;
-import ru.otus.skruglikov.bibliopole.dao.GenreDao;
 import ru.otus.skruglikov.bibliopole.domain.Author;
 import ru.otus.skruglikov.bibliopole.domain.Book;
 import ru.otus.skruglikov.bibliopole.domain.Comment;
@@ -19,7 +16,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @DisplayName("класс CommentServiceImpl должен")
@@ -75,18 +71,6 @@ public class CommentServiceImplTest {
                 .thenReturn(expectedComment);
         final Comment actualComment = commentService.readCommentById(expectedComment.getId());
         assertEquals(expectedComment,actualComment);
-    }
-
-    @DisplayName("возвращает все комментарии")
-    @Test
-    void shouldReadComments() {
-        final List<Comment> expectedCommentList = List.of(new Comment(1, "тест комментарий1",null),
-                new Comment(2, "тест комменатирй2",null));
-        when(commentDao.findAll())
-                .thenReturn(expectedCommentList);
-        final List<Comment> actualCommentList = commentService.readAllComments();
-        assertThat(actualCommentList)
-                .containsExactlyInAnyOrderElementsOf(expectedCommentList);
     }
 
     @DisplayName("возвращает все комментарии для книги")
