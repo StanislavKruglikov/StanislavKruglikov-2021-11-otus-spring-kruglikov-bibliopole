@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.otus.skruglikov.bibliopole.dao.GenreDao;
 import ru.otus.skruglikov.bibliopole.domain.Genre;
+import ru.otus.skruglikov.bibliopole.repository.GenreRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,14 +22,14 @@ public class GenreServiceImplTest {
     @Autowired
     private GenreServiceImpl genreService;
     @MockBean
-    private GenreDao genreDao;
+    private GenreRepository genreRepository;
 
     @DisplayName("возвращать жанр по указанному id")
     @Test
     void shouldReadAuthorById() {
         final Genre expectedGenre = new Genre(1,"тест жанр");
-        when(genreDao.findById(1))
-                .thenReturn(expectedGenre);
+        when(genreRepository.findById(1L))
+                .thenReturn(Optional.of(expectedGenre));
         assertEquals(expectedGenre,genreService.readById(1));
     }
 
@@ -37,7 +38,7 @@ public class GenreServiceImplTest {
     void shouldReadAllAuthors() {
         final List<Genre> expectedGenreList = List.of(new Genre(1,"тест жанр"),
                 new Genre(2,"тест жанр2"));
-        when(genreDao.readAllGenres())
+        when(genreRepository.findAll())
                 .thenReturn(expectedGenreList);
         assertThat(genreService.readAllGenres())
                 .containsExactlyInAnyOrderElementsOf(expectedGenreList);

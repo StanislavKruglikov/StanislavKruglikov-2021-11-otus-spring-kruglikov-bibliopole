@@ -5,31 +5,35 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.otus.skruglikov.bibliopole.dao.BookDao;
-import ru.otus.skruglikov.bibliopole.dao.CommentDao;
 import ru.otus.skruglikov.bibliopole.domain.Author;
 import ru.otus.skruglikov.bibliopole.domain.Book;
 import ru.otus.skruglikov.bibliopole.domain.Comment;
 import ru.otus.skruglikov.bibliopole.domain.Genre;
+import ru.otus.skruglikov.bibliopole.repository.CommentRepository;
+import ru.otus.skruglikov.bibliopole.repository.CustomCommentRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @DisplayName("класс CommentServiceImpl должен")
-@SpringBootTest(classes = CommentServiceImpl.class)
+@SpringBootTest(classes = {CommentServiceImpl.class})
 public class CommentServiceImplTest {
 
     @Autowired
     private CommentServiceImpl commentService;
 
     @MockBean
-    private CommentDao commentDao;
+    private CustomCommentRepository customCommentRepository;
 
     @MockBean
-    private BookDao bookDao;
+    private CommentRepository commentRepository;
+
+    @MockBean
+    private BookService bookService;
 
     @DisplayName("добавляет новый комментарий")
     @Test
@@ -37,12 +41,12 @@ public class CommentServiceImplTest {
         final Book testBook = new Book(1,"тест",new Genre(1,"тест"),
                 new Author(1,"И","Ф","О"));
         final Comment expectedComment = new Comment(0, "тест комментарий новый",testBook);
-        when(commentDao.save(eq(expectedComment)))
+        when(commentRepository.save(eq(expectedComment)))
                 .thenReturn(expectedComment);
-        when(bookDao.findById(eq(expectedComment.getBook().getId())))
+        when(bookService.readBookById(eq(expectedComment.getBook().getId())))
                 .thenReturn(testBook);
         commentService.createComment(expectedComment.getText(),expectedComment.getBook().getId());
-        verify(commentDao,times(1))
+        verify(commentRepository,times(1))
                 .save(expectedComment);
     }
 
@@ -52,12 +56,12 @@ public class CommentServiceImplTest {
         final Book testBook = new Book(1,"тест",new Genre(1,"тест"),
                 new Author(1,"И","Ф","О"));
         final Comment expectedComment = new Comment(1, "тест комментарий новый",testBook);
-        when(commentDao.save(eq(expectedComment)))
+        when(commentRepository.save(eq(expectedComment)))
                 .thenReturn(expectedComment);
-        when(bookDao.findById(eq(expectedComment.getBook().getId())))
+        when(bookService.readBookById(eq(expectedComment.getBook().getId())))
                 .thenReturn(testBook);
         commentService.updateComment(expectedComment.getId(),expectedComment.getText(),expectedComment.getBook().getId());
-        verify(commentDao,times(1))
+        verify(commentRepository,times(1))
                 .save(expectedComment);
     }
 
@@ -67,8 +71,8 @@ public class CommentServiceImplTest {
         final Book testBook = new Book(1,"тест",new Genre(1,"тест"),
                 new Author(1,"И","Ф","О"));
         final Comment expectedComment = new Comment(1, "тест комментарий новый",testBook);
-        when(commentDao.findById(eq(expectedComment.getId())))
-                .thenReturn(expectedComment);
+        when(commentRepository.findById(eq(expectedComment.getId())))
+                .thenReturn(Optional.of(expectedComment));
         final Comment actualComment = commentService.readCommentById(expectedComment.getId());
         assertEquals(expectedComment,actualComment);
     }
@@ -80,7 +84,7 @@ public class CommentServiceImplTest {
                 new Author(1,"И","Ф","О"));
         final List<Comment> expectedCommentList = List.of(new Comment(1, "тест комментарий1",testBook),
                 new Comment(2, "тест комменатирй2",testBook));
-        when(commentDao.findAllCommentsByBookId(eq(testBook.getId())))
+        when(commentRepository.findByBookId(eq(testBook.getId())))
                 .thenReturn(expectedCommentList);
         final List<Comment> actualCommentList = commentService.readAllCommentsByBookId(testBook.getId());
         assertThat(actualCommentList)
@@ -94,10 +98,10 @@ public class CommentServiceImplTest {
                 new Author(1,"И","Ф","О"));
         final Comment commentForDelete = new Comment(0, "тест комментарий новый",testBook);
         doNothing()
-                .when(commentDao)
+                .when(commentRepository)
                 .deleteById(eq(commentForDelete.getId()));
         commentService.deleteComment(commentForDelete.getId());
-        verify(commentDao,times(1))
+        verify(commentRepository,times(1))
                 .deleteById(commentForDelete.getId());
     }
 }
