@@ -1,6 +1,5 @@
 package ru.otus.skruglikov.bibliopole.dao;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,14 +57,6 @@ class CommentDaoJpaTest {
     final List<Comment> actualAllBookIdComments = commentDao.findAllCommentsByBookId(1);
     assertThat(actualAllBookIdComments)
             .containsExactlyInAnyOrder(commentDao.findById(1),commentDao.findById(2));
-  }
-
-  @DisplayName("находить все комменатрий")
-  @Test
-  void shouldFindAllComments() {
-    final List<Comment> actualAllComments = commentDao.findAll();
-    assertThat(actualAllComments)
-            .containsExactlyInAnyOrder(commentDao.findById(1),commentDao.findById(2),commentDao.findById(3));
   }
 
   @DisplayName("находить комменатрий по id")

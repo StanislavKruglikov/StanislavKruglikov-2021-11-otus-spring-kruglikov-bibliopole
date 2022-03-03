@@ -7,6 +7,7 @@ import ru.otus.skruglikov.bibliopole.exception.BookNotFoundDaoException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +20,11 @@ public class BookDaoJpaImpl implements BookDao {
 
     @Override
     public List<Book> readAll() {
-        return em.createQuery("select b from Book b " +
-                        " join fetch b.genre " +
-                        " join fetch b.author ", Book.class)
-                .getResultList();
+        TypedQuery<Book> query = em.createQuery("select b from Book b " +
+                " join b.genre " +
+                " join b.author ", Book.class);
+        query.setHint("javax.persistence.fetchgraph",em.getEntityGraph("GenreAuthorGraph"));
+        return query.getResultList();
     }
 
     @Override
