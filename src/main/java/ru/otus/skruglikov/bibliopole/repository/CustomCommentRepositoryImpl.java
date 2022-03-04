@@ -19,9 +19,7 @@ public class CustomCommentRepositoryImpl implements CustomCommentRepository {
         final TypedQuery<Comment> query = em.createQuery("select c from Comment c where c.book.id = :bookId",Comment.class);
         final List<Comment> commentList = query.setParameter("bookId",bookId).getResultList();
         if(commentList.size() > 0) {
-            bookRepository.findById(bookId).ifPresent(b ->
-                commentList.forEach(c -> c.setBook(b))
-            );
+            bookRepository.findById(bookId);
         }
         return commentList;
     }
