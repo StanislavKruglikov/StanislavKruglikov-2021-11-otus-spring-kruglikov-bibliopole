@@ -3,8 +3,9 @@ package ru.otus.skruglikov.bibliopole.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.skruglikov.bibliopole.dao.AuthorDao;
 import ru.otus.skruglikov.bibliopole.domain.Author;
+import ru.otus.skruglikov.bibliopole.exception.AuthorNotFoundDaoException;
+import ru.otus.skruglikov.bibliopole.repository.AuthorRepository;
 
 import java.util.List;
 
@@ -12,17 +13,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
 
-    private final AuthorDao authorDao;
+    private final AuthorRepository authorRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public Author readById(Long authorId) {
-        return authorDao.findById(authorId);
+    public Author readById(final Long authorId) {
+        return authorRepository
+                .findById(authorId)
+                .orElseThrow(() -> new AuthorNotFoundDaoException("указан не корретный id автора книги - " + authorId));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Author> readAllAuthors() {
-        return authorDao.readAllAuthors();
+        return authorRepository.findAll();
     }
 }

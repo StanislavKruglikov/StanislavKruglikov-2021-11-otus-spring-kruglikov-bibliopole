@@ -3,8 +3,9 @@ package ru.otus.skruglikov.bibliopole.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.skruglikov.bibliopole.dao.GenreDao;
 import ru.otus.skruglikov.bibliopole.domain.Genre;
+import ru.otus.skruglikov.bibliopole.exception.GenreNotFoundDaoException;
+import ru.otus.skruglikov.bibliopole.repository.GenreRepository;
 
 import java.util.List;
 
@@ -12,17 +13,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService {
 
-    private final GenreDao genreDao;
+    private final GenreRepository genreRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public Genre readById(long genreId) {
-        return genreDao.findById(genreId);
+    public Genre readById(final long genreId) {
+        return genreRepository
+                .findById(genreId)
+                .orElseThrow(()-> new GenreNotFoundDaoException("указан не корректный код жанра - " + genreId));
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Genre> readAllGenres() {
-        return genreDao.readAllGenres();
+        return genreRepository.findAll();
     }
 }
