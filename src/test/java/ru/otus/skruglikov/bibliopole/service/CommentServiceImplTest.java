@@ -12,6 +12,7 @@ import ru.otus.skruglikov.bibliopole.domain.Genre;
 import ru.otus.skruglikov.bibliopole.repository.CommentRepository;
 import ru.otus.skruglikov.bibliopole.repository.CustomCommentRepository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,7 +83,7 @@ public class CommentServiceImplTest {
     void shouldReadAllCommentsByBookId() {
         final Book testBook = new Book(1,"тест",new Genre(1,"тест"),
                 new Author(1,"И","Ф","О"));
-        final List<Comment> expectedCommentList = List.of(new Comment(1, "тест комментарий1",testBook),
+        final List<Comment> expectedCommentList = Arrays.asList(new Comment(1, "тест комментарий1",testBook),
                 new Comment(2, "тест комменатирй2",testBook));
         when(commentRepository.findByBookId(eq(testBook.getId())))
                 .thenReturn(expectedCommentList);

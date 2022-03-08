@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.otus.skruglikov.bibliopole.domain.Genre;
 import ru.otus.skruglikov.bibliopole.repository.GenreRepository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,8 @@ public class GenreServiceImplTest {
     @DisplayName("возвращать все жанры")
     @Test
     void shouldReadAllAuthors() {
-        final List<Genre> expectedGenreList = List.of(new Genre(1,"тест жанр"),
+        List<String> g = Arrays.asList("тест жанр");
+        final List<Genre> expectedGenreList = Arrays.asList(new Genre(1,"тест жанр"),
                 new Genre(2,"тест жанр2"));
         when(genreRepository.findAll())
                 .thenReturn(expectedGenreList);

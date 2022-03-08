@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.otus.skruglikov.bibliopole.domain.Author;
 import ru.otus.skruglikov.bibliopole.repository.AuthorRepository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ public class AuthorServiceImplTest {
     @DisplayName("возвращать всех авторов")
     @Test
     void shouldReadAllAuthors() {
-        final List<Author> expectedAuthorList = List.of(new Author(1, "тест","тестов","тестович"),
+        final List<Author> expectedAuthorList = Arrays.asList(new Author(1, "тест","тестов","тестович"),
                 new Author(2, "тест2","тестов2","тестович2"));
         when(authorRepository.findAll())
                 .thenReturn(expectedAuthorList);

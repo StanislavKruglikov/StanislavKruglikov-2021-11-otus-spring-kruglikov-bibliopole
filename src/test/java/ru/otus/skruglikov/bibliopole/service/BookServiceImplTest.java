@@ -10,6 +10,7 @@ import ru.otus.skruglikov.bibliopole.domain.Book;
 import ru.otus.skruglikov.bibliopole.domain.Genre;
 import ru.otus.skruglikov.bibliopole.repository.BookRepository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,7 +96,7 @@ public class BookServiceImplTest {
     void shouldReadAllBooks() {
         final Genre newGenre = new Genre(1, "тест жанр");
         final Author newAuthor = new Author(1, "тест","тестов","тестович");
-        final List<Book> expectedBooks = List.of(new Book(1L, "Новая тестовая книга", newGenre, newAuthor),
+        final List<Book> expectedBooks = Arrays.asList(new Book(1L, "Новая тестовая книга", newGenre, newAuthor),
                 new Book(2L, "Новая тестовая книга2", newGenre, newAuthor));
         when(bookRepository.findAll())
                 .thenReturn(expectedBooks);
