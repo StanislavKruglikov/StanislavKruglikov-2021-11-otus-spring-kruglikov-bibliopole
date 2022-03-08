@@ -28,18 +28,18 @@ public class GenreServiceImplTest {
     @DisplayName("возвращать жанр по указанному id")
     @Test
     void shouldReadAuthorById() {
-        final Genre expectedGenre = new Genre(1,"тест жанр");
-        when(genreRepository.findById(1L))
+        final Genre expectedGenre = new Genre("1","тест жанр");
+        when(genreRepository.findById("1"))
                 .thenReturn(Optional.of(expectedGenre));
-        assertEquals(expectedGenre,genreService.readById(1));
+        assertEquals(expectedGenre,genreService.readById("1"));
     }
 
     @DisplayName("возвращать все жанры")
     @Test
     void shouldReadAllAuthors() {
         List<String> g = Arrays.asList("тест жанр");
-        final List<Genre> expectedGenreList = Arrays.asList(new Genre(1,"тест жанр"),
-                new Genre(2,"тест жанр2"));
+        final List<Genre> expectedGenreList = Arrays.asList(new Genre("1","тест жанр"),
+                new Genre("2","тест жанр2"));
         when(genreRepository.findAll())
                 .thenReturn(expectedGenreList);
         assertThat(genreService.readAllGenres())

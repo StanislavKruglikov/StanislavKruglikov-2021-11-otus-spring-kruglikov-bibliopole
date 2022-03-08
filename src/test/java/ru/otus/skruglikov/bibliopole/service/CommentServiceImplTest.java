@@ -10,7 +10,6 @@ import ru.otus.skruglikov.bibliopole.domain.Book;
 import ru.otus.skruglikov.bibliopole.domain.Comment;
 import ru.otus.skruglikov.bibliopole.domain.Genre;
 import ru.otus.skruglikov.bibliopole.repository.CommentRepository;
-import ru.otus.skruglikov.bibliopole.repository.CustomCommentRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,9 +27,6 @@ public class CommentServiceImplTest {
     private CommentServiceImpl commentService;
 
     @MockBean
-    private CustomCommentRepository customCommentRepository;
-
-    @MockBean
     private CommentRepository commentRepository;
 
     @MockBean
@@ -39,9 +35,9 @@ public class CommentServiceImplTest {
     @DisplayName("добавляет новый комментарий")
     @Test
     void shouldAddNewComment() {
-        final Book testBook = new Book(1,"тест",new Genre(1,"тест"),
-                new Author(1,"И","Ф","О"));
-        final Comment expectedComment = new Comment(0, "тест комментарий новый",testBook);
+        final Book testBook = new Book("1","тест",new Genre("1","тест"),
+                new Author("1","И","Ф","О"));
+        final Comment expectedComment = new Comment(null, "тест комментарий новый",testBook);
         when(commentRepository.save(eq(expectedComment)))
                 .thenReturn(expectedComment);
         when(bookService.readBookById(eq(expectedComment.getBook().getId())))
@@ -54,9 +50,9 @@ public class CommentServiceImplTest {
     @DisplayName("обновляет новый комментарий")
     @Test
     void shouldUpdateComment() {
-        final Book testBook = new Book(1,"тест",new Genre(1,"тест"),
-                new Author(1,"И","Ф","О"));
-        final Comment expectedComment = new Comment(1, "тест комментарий новый",testBook);
+        final Book testBook = new Book("1","тест",new Genre("1","тест"),
+                new Author("1","И","Ф","О"));
+        final Comment expectedComment = new Comment("1", "тест комментарий новый",testBook);
         when(commentRepository.save(eq(expectedComment)))
                 .thenReturn(expectedComment);
         when(bookService.readBookById(eq(expectedComment.getBook().getId())))
@@ -69,9 +65,9 @@ public class CommentServiceImplTest {
     @DisplayName("возвращает комментарий по id")
     @Test
     void shouldReadCommentById() {
-        final Book testBook = new Book(1,"тест",new Genre(1,"тест"),
-                new Author(1,"И","Ф","О"));
-        final Comment expectedComment = new Comment(1, "тест комментарий новый",testBook);
+        final Book testBook = new Book("1","тест",new Genre("1","тест"),
+                new Author("1","И","Ф","О"));
+        final Comment expectedComment = new Comment("1", "тест комментарий новый",testBook);
         when(commentRepository.findById(eq(expectedComment.getId())))
                 .thenReturn(Optional.of(expectedComment));
         final Comment actualComment = commentService.readCommentById(expectedComment.getId());
@@ -81,11 +77,11 @@ public class CommentServiceImplTest {
     @DisplayName("возвращает все комментарии для книги")
     @Test
     void shouldReadAllCommentsByBookId() {
-        final Book testBook = new Book(1,"тест",new Genre(1,"тест"),
-                new Author(1,"И","Ф","О"));
-        final List<Comment> expectedCommentList = Arrays.asList(new Comment(1, "тест комментарий1",testBook),
-                new Comment(2, "тест комменатирй2",testBook));
-        when(commentRepository.findByBookId(eq(testBook.getId())))
+        final Book testBook = new Book("1","тест",new Genre("1","тест"),
+                new Author("1","И","Ф","О"));
+        final List<Comment> expectedCommentList = Arrays.asList(new Comment("1", "тест комментарий1",testBook),
+                new Comment("2", "тест комменатирй2",testBook));
+        when(commentRepository.findALLByBookId(eq(testBook.getId())))
                 .thenReturn(expectedCommentList);
         final List<Comment> actualCommentList = commentService.readAllCommentsByBookId(testBook.getId());
         assertThat(actualCommentList)
@@ -95,9 +91,9 @@ public class CommentServiceImplTest {
     @DisplayName("удаляет комментарии по id")
     @Test
     void shouldDeleteCommentsById() {
-        final Book testBook = new Book(1,"тест",new Genre(1,"тест"),
-                new Author(1,"И","Ф","О"));
-        final Comment commentForDelete = new Comment(0, "тест комментарий новый",testBook);
+        final Book testBook = new Book("1","тест",new Genre("1","тест"),
+                new Author("1","И","Ф","О"));
+        final Comment commentForDelete = new Comment("1", "тест комментарий новый",testBook);
         doNothing()
                 .when(commentRepository)
                 .deleteById(eq(commentForDelete.getId()));

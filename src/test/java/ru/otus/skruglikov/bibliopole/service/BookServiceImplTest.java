@@ -9,6 +9,7 @@ import ru.otus.skruglikov.bibliopole.domain.Author;
 import ru.otus.skruglikov.bibliopole.domain.Book;
 import ru.otus.skruglikov.bibliopole.domain.Genre;
 import ru.otus.skruglikov.bibliopole.repository.BookRepository;
+import ru.otus.skruglikov.bibliopole.repository.CommentRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,13 +32,17 @@ public class BookServiceImplTest {
     @MockBean
     private GenreService genreService;
 
+    @MockBean
+    private CommentRepository commentRepository;
+
+
     @DisplayName("добавлять новую книгу")
     @Test
     void shouldAddNewBook() {
-        final Optional<Genre> newGenre = Optional.of(new Genre(1, "тест жанр"));
+        final Optional<Genre> newGenre = Optional.of(new Genre(null, "тест жанр"));
         final Optional<Author> newAuthor =
-                Optional.of(new Author(1, "тест","тестов","тестович"));
-        final Book newBook = new Book(0, "Новая тестовая книга", newGenre.get(), newAuthor.get());
+                Optional.of(new Author(null, "тест","тестов","тестович"));
+        final Book newBook = new Book(null, "Новая тестовая книга", newGenre.get(), newAuthor.get());
         when(bookRepository.save(any()))
                 .thenReturn(newBook);
         when(authorService.readById(eq(newAuthor.get().getId())))
@@ -52,19 +57,22 @@ public class BookServiceImplTest {
     @DisplayName("удалять книгу по id")
     @Test
     void shouldDeleteBookById() {
-        final long bookId = 1L;
+        final String bookId = "1";
         doNothing().when(bookRepository).deleteById(bookId);
         bookService.deleteBook(bookId);
+        doNothing().when(commentRepository).deleteAllByBookId(bookId);
         verify(bookRepository,times(1))
                 .deleteById(bookId);
+        verify(commentRepository,times(1))
+                .deleteAllByBookId(bookId);
     }
 
     @DisplayName("обновлять данные по книге")
     @Test
     void shouldUpdateBook() {
-        final Genre newGenre = new Genre(1, "тест жанр");
-        final Author newAuthor = new Author(1, "тест","тестов","тестович");
-        final Book bookForUpdate = new Book(1L, "Новая тестовая книга", newGenre, newAuthor);
+        final Genre newGenre = new Genre("1", "тест жанр");
+        final Author newAuthor = new Author("1", "тест","тестов","тестович");
+        final Book bookForUpdate = new Book("1", "Новая тестовая книга", newGenre, newAuthor);
         when(bookRepository.save(bookForUpdate))
                 .thenReturn(bookForUpdate);
         when(authorService.readById(eq(newAuthor.getId())))
@@ -81,9 +89,9 @@ public class BookServiceImplTest {
     @DisplayName("возвращать книгу по id")
     @Test
     void shouldReadBookById() {
-        final Genre newGenre = new Genre(1, "тест жанр");
-        final Author newAuthor = new Author(1, "тест","тестов","тестович");
-        final Book expectedBook = new Book(1L, "Новая тестовая книга", newGenre, newAuthor);
+        final Genre newGenre = new Genre(null, "тест жанр");
+        final Author newAuthor = new Author(null, "тест","тестов","тестович");
+        final Book expectedBook = new Book(null, "Новая тестовая книга", newGenre, newAuthor);
         when(bookRepository.findById(eq(expectedBook.getId())))
                 .thenReturn(Optional.of(expectedBook));
         assertThat(bookService.readBookById(expectedBook.getId()))
@@ -94,10 +102,10 @@ public class BookServiceImplTest {
     @DisplayName("возвращать все книги")
     @Test
     void shouldReadAllBooks() {
-        final Genre newGenre = new Genre(1, "тест жанр");
-        final Author newAuthor = new Author(1, "тест","тестов","тестович");
-        final List<Book> expectedBooks = Arrays.asList(new Book(1L, "Новая тестовая книга", newGenre, newAuthor),
-                new Book(2L, "Новая тестовая книга2", newGenre, newAuthor));
+        final Genre newGenre = new Genre(null, "тест жанр");
+        final Author newAuthor = new Author(null, "тест","тестов","тестович");
+        final List<Book> expectedBooks = Arrays.asList(new Book(null, "Новая тестовая книга", newGenre, newAuthor),
+                new Book("2", "Новая тестовая книга2", newGenre, newAuthor));
         when(bookRepository.findAll())
                 .thenReturn(expectedBooks);
         assertThat(bookService.readAllBooks())

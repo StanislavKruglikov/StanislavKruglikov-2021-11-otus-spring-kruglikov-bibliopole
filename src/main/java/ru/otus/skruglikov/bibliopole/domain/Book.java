@@ -10,9 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Document(collection = "book")
 public class Book {
-
     @Id
-    private long id;
+    private String id;
     private String title;
     private Genre genre;
     private Author author;

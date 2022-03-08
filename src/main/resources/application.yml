@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-circular-references: true
   data:
     mongodb:
       database: bibliopole
@@ -12,8 +14,6 @@ spring:
   output:
     ansi:
       enabled: always
-  main:
-    allow-circular-references: true
 mongock:
   runner-type: InitializingBean
   change-logs-scan-package:

@@ -32,32 +32,29 @@ public class InitMongoDbChangeLog {
 
     @ChangeSet(order = "002", id = "insertAuthor", author = "kruglikov", runAlways = true)
     public void insertAuthor(final AuthorRepository authorRepository) {
-        authors = Arrays.asList(new Author(1,"Заумнов","Сергей","Сергеевич"),
-            new Author(2,"Акабетов","Илья","Петрович"),
-            new Author(3,"Пристли","Джон","Бойнтонг"));
+        authors = Arrays.asList(new Author(null,"Заумнов","Сергей","Сергеевич"),
+            new Author(null,"Акабетов","Илья","Петрович"),
+            new Author(null,"Пристли","Джон","Бойнтонг"));
         authorRepository.saveAll(authors);
     }
 
     @ChangeSet(order = "003", id = "insertGenre", author = "kruglikov", runAlways = true)
     public void insertGenre(final GenreRepository repository) {
         genres = Arrays.asList(
-            new Genre(1,"триллер"),
-            new Genre(2,"детектив"),
-            new Genre(3,"научная фантастика")
+            new Genre(null,"триллер"),
+            new Genre(null,"детектив"),
+            new Genre(null,"научная фантастика")
         );
         repository.saveAll(genres);
     }
 
     @ChangeSet(order = "004", id = "insertBook", author = "kruglikov", runAlways = true)
     public void insertBook(final BookRepository bookRepository, final AuthorRepository a) {
-        Author a1 = a.findById(1L).orElse(new Author());
-        System.out.println(a1);
-        System.out.println(a.findAll());
         books = Arrays.asList(
-            new Book(1,"Гонка на выживание",genres.get(0),authors.get(0)),
-            new Book(2,"Убийство в темном лесу",genres.get(1),authors.get(0)),
-            new Book(3,"Голос со звезды",genres.get(2),authors.get(1)),
-            new Book(4,"Чисто английское убийство",genres.get(1),authors.get(2))
+            new Book(null,"Гонка на выживание",genres.get(0),authors.get(0)),
+            new Book(null,"Убийство в темном лесу",genres.get(1),authors.get(0)),
+            new Book(null,"Голос со звезды",genres.get(2),authors.get(1)),
+            new Book(null,"Чисто английское убийство",genres.get(1),authors.get(2))
         );
         bookRepository.saveAll(books);
     }
@@ -66,9 +63,9 @@ public class InitMongoDbChangeLog {
     public void insertComment(final CommentRepository commentRepository,final BookRepository bookRepository) {
         final List<Book> books = bookRepository.findAll();
         commentRepository.saveAll(Arrays.asList(
-            new Comment(1,"Замечательное произведение, прочел на одном дыхании.",books.get(0)),
-            new Comment(2,"Захватывает сюжет.",books.get(0)),
-            new Comment(3,"Слегка затянуто, но почитать на досуге можно.",books.get(1))
+            new Comment(null,"Замечательное произведение, прочел на одном дыхании.",books.get(0)),
+            new Comment(null,"Захватывает сюжет.",books.get(0)),
+            new Comment(null,"Слегка затянуто, но почитать на досуге можно.",books.get(1))
         ));
     }
 }

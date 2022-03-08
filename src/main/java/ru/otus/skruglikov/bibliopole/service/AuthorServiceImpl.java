@@ -17,7 +17,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @Transactional(readOnly = true)
-    public Author readById(final Long authorId) {
+    public Author readById(final String authorId) {
         return authorRepository
                 .findById(authorId)
                 .orElseThrow(() -> new AuthorNotFoundDaoException("указан не корретный id автора книги - " + authorId));

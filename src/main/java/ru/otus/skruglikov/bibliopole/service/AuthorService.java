@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AuthorService {
 
-    Author readById(Long authorId);
+    Author readById(String authorId);
 
     List<Author> readAllAuthors();
 
