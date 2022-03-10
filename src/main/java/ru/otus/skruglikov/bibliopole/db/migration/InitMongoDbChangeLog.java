@@ -2,10 +2,7 @@ package ru.otus.skruglikov.bibliopole.db.migration;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
-import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
-import com.google.common.collect.Lists;
 import com.mongodb.client.MongoDatabase;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import ru.otus.skruglikov.bibliopole.domain.Author;
 import ru.otus.skruglikov.bibliopole.domain.Book;
 import ru.otus.skruglikov.bibliopole.domain.Comment;

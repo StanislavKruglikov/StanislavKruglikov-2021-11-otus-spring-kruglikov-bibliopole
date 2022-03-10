@@ -1,11 +1,11 @@
 package ru.otus.skruglikov.bibliopole.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.skruglikov.bibliopole.domain.Author;
 import ru.otus.skruglikov.bibliopole.domain.Book;
+import ru.otus.skruglikov.bibliopole.domain.Comment;
 import ru.otus.skruglikov.bibliopole.domain.Genre;
 import ru.otus.skruglikov.bibliopole.exception.BookNotFoundDaoException;
 import ru.otus.skruglikov.bibliopole.repository.BookRepository;
@@ -46,7 +46,13 @@ public class BookServiceImpl implements BookService {
     public void updateBook(final String bookId, final String bookTitle, final String genreId, final String authorId) {
         final Genre genre = genreId != null ? genreService.readById(genreId) : null;
         final Author author = authorId != null ? authorService.readById(authorId) : null;
-        bookRepository.save(new Book(bookId, bookTitle, genre, author));
+        final Book book = new Book(bookId, bookTitle, genre, author);
+        bookRepository.save(book);
+        final List<Comment> comments = commentRepository.findALLByBookId(bookId);
+        comments.forEach(c -> {
+            c.setBook(book);
+            commentRepository.save(c);
+        });
     }
 
     @Override

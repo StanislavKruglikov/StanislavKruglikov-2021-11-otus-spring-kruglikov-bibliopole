@@ -6,8 +6,6 @@ spring:
       database: bibliopole
       host: localhost
       port: 27017
-      #port: 0
-      #database: test
   mongodb:
     embedded:
       version: 3.5.5

@@ -12,6 +12,7 @@ import ru.otus.skruglikov.bibliopole.repository.BookRepository;
 import ru.otus.skruglikov.bibliopole.repository.CommentRepository;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,11 +80,15 @@ public class BookServiceImplTest {
                 .thenReturn(newAuthor);
         when(genreService.readById(eq(newGenre.getId())))
                 .thenReturn(newGenre);
+        when(commentRepository.findALLByBookId(eq(bookForUpdate.getId())))
+            .thenReturn(Collections.emptyList());
         bookService.updateBook(bookForUpdate.getId(),bookForUpdate.getTitle(),
                 bookForUpdate.getGenre().getId(),
                 bookForUpdate.getAuthor().getId());
         verify(bookRepository,times(1))
                 .save(bookForUpdate);
+        verify(commentRepository,times(1))
+            .findALLByBookId(bookForUpdate.getId());
     }
 
     @DisplayName("возвращать книгу по id")
