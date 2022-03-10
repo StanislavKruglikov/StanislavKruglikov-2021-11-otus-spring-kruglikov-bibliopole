@@ -12,25 +12,24 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
-
     private final CommentRepository commentRepository;
     private final BookService bookService;
 
     @Override
     @Transactional
-    public void createComment(final String text, final long bookId) {
-        commentRepository.save(new Comment(0, text, bookService.readBookById(bookId)));
+    public void createComment(final String text, final String bookId) {
+        commentRepository.save(new Comment(null, text, bookService.readBookById(bookId)));
     }
 
     @Override
     @Transactional
-    public void updateComment(final long id, final String text, final long bookId) {
+    public void updateComment(final String id, final String text, final String bookId) {
         commentRepository.save(new Comment(id,text, bookService.readBookById(bookId)));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Comment readCommentById(final long id) {
+    public Comment readCommentById(final String id) {
         return commentRepository
                 .findById(id)
                 .orElseThrow(()-> new CommentNotFoundDaoException("не найден комментарий с id - " + id));
@@ -38,13 +37,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Comment> readAllCommentsByBookId(final long bookId) {
-        return commentRepository.findByBookId(bookId);
+    public List<Comment> readAllCommentsByBookId(final String bookId) {
+        return commentRepository.findALLByBookId(bookId);
     }
 
     @Override
     @Transactional
-    public void deleteComment(final long id) {
+    public void deleteComment(final String id) {
         commentRepository.deleteById(id);
     }
 }

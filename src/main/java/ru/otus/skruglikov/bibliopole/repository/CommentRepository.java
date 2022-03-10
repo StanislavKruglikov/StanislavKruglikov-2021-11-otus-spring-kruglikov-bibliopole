@@ -1,14 +1,12 @@
 package ru.otus.skruglikov.bibliopole.repository;
 
-import org.springframework.data.jpa.repository.EntityGraph;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import ru.otus.skruglikov.bibliopole.domain.Comment;
 
-import java.util.Optional;
+import java.util.List;
 
-public interface CommentRepository extends JpaRepository<Comment, Long>, CustomCommentRepository {
+public interface CommentRepository extends MongoRepository<Comment, String> {
+    List<Comment> findALLByBookId(String bookId);
 
-    @Override
-    @EntityGraph(value = "BookGenreAuthorGraph")
-    Optional<Comment> findById(Long aLong);
+    void deleteAllByBookId(String bookId);
 }

@@ -17,7 +17,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     @Transactional(readOnly = true)
-    public Genre readById(final long genreId) {
+    public Genre readById(final String genreId) {
         return genreRepository
                 .findById(genreId)
                 .orElseThrow(()-> new GenreNotFoundDaoException("указан не корректный код жанра - " + genreId));

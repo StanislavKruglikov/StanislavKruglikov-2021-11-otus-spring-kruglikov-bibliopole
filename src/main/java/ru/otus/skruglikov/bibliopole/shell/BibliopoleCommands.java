@@ -24,28 +24,28 @@ public class BibliopoleCommands {
     private final CommentService commentService;
 
     @ShellMethod(value = "add book", key = {"ab"})
-    public String addBook(String title, long genre, long author) {
+    public String addBook(String title, String genre, String author) {
         bookService.createBook(title, genre, author);
         return  "\nКнига успешно добавлена";
     }
 
     @ShellMethod(value = "delete book", key = {"db"})
-    public String deleteBook(long id) {
+    public String deleteBook(String id) {
         bookService.deleteBook(id);
         return "\nКнига успешно удалена";
     }
 
     @ShellMethod(value = "update a book", key = {"ub"})
-    public String updateBook(long id,
+    public String updateBook(String id,
                              String title,
-                             Long genre,
-                             Long author) {
+                             String genre,
+                             String author) {
         bookService.updateBook(id, title, genre, author);
         return  "\nКнига успешно обновлена";
     }
 
     @ShellMethod(value = "read a book", key = {"rb"})
-    public Book readBook(long id) {
+    public Book readBook(String id) {
         return bookService.readBookById(id);
     }
 
@@ -65,31 +65,31 @@ public class BibliopoleCommands {
     }
 
     @ShellMethod(value = "add comment", key = {"ac"})
-    public String addComment(String text, long bookId) {
+    public String addComment(String text, String bookId) {
         commentService.createComment(text, bookId);
         return "\nКомментарий успешно добавлен";
     }
 
     @ShellMethod(value = "update comment", key = {"uc"})
-    public String updateComment(long id, String text, long bookId) {
+    public String updateComment(String id, String text, String bookId) {
         commentService.updateComment(id, text, bookId);
         return "\nКомментарий успешно обновлен";
     }
 
 
     @ShellMethod(value = "delete comment", key = {"dc"})
-    public String deleteComment(long id) {
+    public String deleteComment(String id) {
         commentService.deleteComment(id);
         return  "\nКомментарий успешно удален";
     }
 
     @ShellMethod(value = "read a comment", key = {"rc"})
-    public Comment readComment(long id) {
+    public Comment readComment(String id) {
         return commentService.readCommentById(id);
     }
 
     @ShellMethod(value = "read all book comments", key = {"rabc"})
-    public List<Comment> readAllBookComments(long bookId) {
+    public List<Comment> readAllBookComments(String bookId) {
         return commentService.readAllCommentsByBookId(bookId);
     }
 }
