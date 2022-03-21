@@ -2,11 +2,10 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Ошибка</title>
+    <title>Библиотека</title>
     <link href="styles/style.css" rel="stylesheet" />
 </head>
 <body>
-<h1>ОШИБКА</h1>
-<h1><a href="/">Чип и дэйл спешат на помощь!</a></h1>
+    <div th:replace="fragments/layout :: layout(contextObject=null, contentValue=null)" />
 </body>
 </html>

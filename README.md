@@ -4,3 +4,5 @@
 Домашнее задание №9
 
 CRUD приложение с Web UI и хранением данных в БД
+
+https://github.com/thymeleaf/thymeleafexamples-layouts.git

@@ -7,10 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.skruglikov.bibliopole.domain.Author;
 import ru.otus.skruglikov.bibliopole.domain.Book;
 import ru.otus.skruglikov.bibliopole.domain.Genre;
+import ru.otus.skruglikov.bibliopole.dto.BookDTO;
+import ru.otus.skruglikov.bibliopole.dto.adapter.BookDTOAdapter;
 import ru.otus.skruglikov.bibliopole.exception.BookNotFoundDaoException;
 import ru.otus.skruglikov.bibliopole.repository.BookRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,30 +25,39 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void createBook(final String bookTitle, final long genreId, final long authorId) {
-        final Genre genre = genreService.readById(genreId);
-        final Author author = authorService.readById(authorId);
-        bookRepository.save(new Book(0, bookTitle, genre, author));
+    public void createBook(final BookDTO bookDTO) {
+        final Genre genre = genreService.readById(bookDTO.getGenreId());
+        final Author author = authorService.readById(bookDTO.getAuthorId());
+        final Book book = BookDTOAdapter.getEntity(bookDTO);
+        book.setAuthor(author);
+        book.setGenre(genre);
+        bookRepository.save(book);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Book readBookById(final long bookId) {
-        return bookRepository.findById(bookId).orElseThrow(()-> new BookNotFoundDaoException("не найдена книга с id - " + bookId));
+    public BookDTO readBookById(final long bookId) {
+        return BookDTOAdapter.getDTO(
+            bookRepository.findById(bookId).orElseThrow(()-> new BookNotFoundDaoException("не найдена книга с id - " + bookId))
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Book> readAllBooks() {
-        return bookRepository.findAll();
+    public List<BookDTO> readAllBooks() {
+        return bookRepository.findAll()
+            .stream()
+            .map( BookDTOAdapter::getDTO)
+            .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public void updateBook(final long bookId, final String bookTitle, final Long genreId, final Long authorId) {
-        final Genre genre = genreId != null ? genreService.readById(genreId) : null;
-        final Author author = authorId != null ? authorService.readById(authorId) : null;
-        bookRepository.save(new Book(bookId, bookTitle, genre, author));
+    public void updateBook(final BookDTO bookDTO) {
+        final Book book = BookDTOAdapter.getEntity(bookDTO);
+        book.setAuthor(bookDTO.getAuthorId() != 0 ? authorService.readById(bookDTO.getAuthorId()) : null);
+        book.setGenre(bookDTO.getAuthorId() != 0 ? genreService.readById(bookDTO.getGenreId()) : null);
+        bookRepository.save(book);
     }
 
     @Override

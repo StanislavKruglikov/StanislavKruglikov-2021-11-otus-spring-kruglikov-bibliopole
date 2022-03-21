@@ -11,9 +11,9 @@ import ru.otus.skruglikov.bibliopole.service.GenreService;
 public class GenreController {
     private final GenreService genreService;
 
-    @GetMapping("/genres")
-    public String getBooks(final Model model) {
+    @GetMapping("/genre-list")
+    public String getGenreList(final Model model) {
         model.addAttribute("genres",genreService.readAllGenres());
-        return "genres";
+        return "genre-list";
     }
 }

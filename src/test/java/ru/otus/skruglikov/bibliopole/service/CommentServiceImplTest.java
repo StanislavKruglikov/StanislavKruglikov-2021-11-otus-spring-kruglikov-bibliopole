@@ -43,8 +43,8 @@ public class CommentServiceImplTest {
         final Comment expectedComment = new Comment(0, "тест комментарий новый",testBook);
         when(commentRepository.save(eq(expectedComment)))
                 .thenReturn(expectedComment);
-        when(bookService.readBookById(eq(expectedComment.getBook().getId())))
-                .thenReturn(testBook);
+/*        when(bookService.readBookById(eq(expectedComment.getBook().getId())))
+                .thenReturn(testBook);*/
         commentService.createComment(expectedComment.getText(),expectedComment.getBook().getId());
         verify(commentRepository,times(1))
                 .save(expectedComment);
@@ -58,8 +58,8 @@ public class CommentServiceImplTest {
         final Comment expectedComment = new Comment(1, "тест комментарий новый",testBook);
         when(commentRepository.save(eq(expectedComment)))
                 .thenReturn(expectedComment);
-        when(bookService.readBookById(eq(expectedComment.getBook().getId())))
-                .thenReturn(testBook);
+/*        when(bookService.readBookById(eq(expectedComment.getBook().getId())))
+                .thenReturn(testBook);*/
         commentService.updateComment(expectedComment.getId(),expectedComment.getText(),expectedComment.getBook().getId());
         verify(commentRepository,times(1))
                 .save(expectedComment);

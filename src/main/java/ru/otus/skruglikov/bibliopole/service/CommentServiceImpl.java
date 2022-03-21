@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.skruglikov.bibliopole.domain.Comment;
+import ru.otus.skruglikov.bibliopole.dto.BookDTO;
+import ru.otus.skruglikov.bibliopole.dto.adapter.BookDTOAdapter;
 import ru.otus.skruglikov.bibliopole.exception.CommentNotFoundDaoException;
 import ru.otus.skruglikov.bibliopole.repository.CommentRepository;
 
@@ -19,13 +21,13 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public void createComment(final String text, final long bookId) {
-        commentRepository.save(new Comment(0, text, bookService.readBookById(bookId)));
+        commentRepository.save(new Comment(0, text, BookDTOAdapter.getEntity(bookService.readBookById(bookId))));
     }
 
     @Override
     @Transactional
     public void updateComment(final long id, final String text, final long bookId) {
-        commentRepository.save(new Comment(id,text, bookService.readBookById(bookId)));
+        commentRepository.save(new Comment(id,text, BookDTOAdapter.getEntity(bookService.readBookById(bookId))));
     }
 
     @Override

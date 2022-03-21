@@ -1,17 +1,18 @@
 package ru.otus.skruglikov.bibliopole.service;
 
 import ru.otus.skruglikov.bibliopole.domain.Book;
+import ru.otus.skruglikov.bibliopole.dto.BookDTO;
 
 import java.util.List;
 
 public interface BookService {
-    void createBook(String bookTitle, long genreId, long authorId);
+    void createBook(BookDTO bookDTO);
 
-    Book readBookById(long bookId);
+    BookDTO readBookById(long bookId);
 
-    List<Book> readAllBooks();
+    List<BookDTO> readAllBooks();
 
-    void updateBook(long bookId, String bookTitle, Long genreId, Long authorId);
+    void updateBook(BookDTO bookDTO);
 
     void deleteBook(long bookId);
 }

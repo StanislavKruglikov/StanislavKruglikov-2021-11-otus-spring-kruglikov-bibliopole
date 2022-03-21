@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+    <link href="styles/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div th:insert="fragments/layout :: layout(contextObject='books',contentValue=~{ :: #book-edit})">
+        <form id="book-edit" action="" method="POST" th:action="@{/book-save}" th:object="${book}">
+            <span name="id" text="Идентификатор:" th:text="'Идентификатор:' + *{id == null ? '' : id}"/>
+            <input name="id" type="hidden" value="" th:value="*{id}"/>
+            <label for="title">Название:</label>
+            <input name="title" th:field="*{title}" value="" placeholder="название" th:value="*{title}"/>
+            <span th:each="err : ${#fields.errors('title')}" th:text="${err}" class="field-error" />
+            <label for="authorId">Автор:</label>
+            <select name="authorId" th:field="${book.authorId}">
+                <option class="author" th:each="author : ${authors}" th:object="${author}" th:value="*{id}" th:text="*{lastName} + ' ' + *{firstName} + ' ' + *{patronymicName}"/>
+                <option class="author" th:value="0" th:text="выбрать.."/>
+            </select>
+            <span th:each="err : ${#fields.errors('authorId')}" th:text="${err}" class="field-error" />
+            <label for="genreId">Жанр:</label>
+            <select name="genreId" th:field="${book.genreId}">
+                <option class="genre" th:each="genre : ${genres}" th:object="${genre}" th:value="*{id}" th:text="*{name}"/>
+                <option class="genre" th:value="0" th:text="выбрать.."/>
+            </select>
+            <span th:each="err : ${#fields.errors('genreId')}" th:text="${err}" class="field-error" />
+            <br/>
+            <button type="submit" name="action" value="save">Сохранить</button>
+            <button type="submit" name="action" value="cancel">Отмена</button>
+        </form>
+    </div>
+</body>
+</html>

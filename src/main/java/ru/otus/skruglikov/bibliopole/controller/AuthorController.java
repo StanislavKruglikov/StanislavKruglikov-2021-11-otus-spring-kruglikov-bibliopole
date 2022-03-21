@@ -11,9 +11,9 @@ import ru.otus.skruglikov.bibliopole.service.AuthorService;
 public class AuthorController {
     private final AuthorService authorService;
 
-    @GetMapping("/authors")
-    public String getBooks(final Model model) {
+    @GetMapping("/author-list")
+    public String getAuthorList(final Model model) {
         model.addAttribute("authors",authorService.readAllAuthors());
-        return "authors";
+        return "author-list";
     }
 }
