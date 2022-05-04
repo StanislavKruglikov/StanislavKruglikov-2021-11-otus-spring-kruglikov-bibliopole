@@ -1,0 +1,76 @@
+#home-page-content {
+    font-size: xxx-large;
+}
+
+.field-error {
+    font-size: 70%;
+    font-style: italic;
+    color: red;
+}
+
+.book-list-control-block {
+    margin: 5px;
+}
+
+.list-block {
+    width: 50%;
+    margin: 2px;
+}
+
+.link-action {
+    color: brown;
+    text-decoration: none;
+}
+
+.link-content {
+    color: black;
+    text-decoration: none;
+}
+
+.link-content pre {
+    margin: 0px 0px 10px 10px;
+}
+
+.list-block-item {
+    height: auto;
+    widht: 50%;
+    padding: 2px;
+    margin: 1px 0px 10px 1px;
+}
+
+.list-block-item-line {
+    margin-bottom: 1px;
+}
+
+.list-block-item-content {
+    height: auto;
+}
+
+.list-block-item-line > div {
+    display: inline-block;
+}
+
+.list-block-item-line-title {
+    width: 150px;
+}
+
+.list-block-item-control-block {
+    border-bottom: solid 1px darkgray;
+    font-size: large;
+    margin: 1px 15px 15px 1px;
+}
+
+
+.list-block-item-control-second {
+    margin-left: 100px;
+}
+
+.edit-form {
+    margin: 10px;
+}
+
+.edit-form-field-line label {
+    text-align: right;
+    display: inline-block;
+    width: 100px;
+}

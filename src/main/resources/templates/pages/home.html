@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+    <link href="styles/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div th:replace="fragments/layout :: layout(menuBlock='home',contentValue=~{ :: #home-page-content})">
+        <div id="home-page-content">
+            <div>Рады приветствовать Вас на стартовой странице приложения "БИБЛИОФИЛ"</div>
+            <div>Приложение предназначено для ведения домашней библиотеки</div>
+            <div>Здесь вы сможете сформировать каталог домашних книг с комментариями к ним</div>
+        </div>
+    </div>
+</body>
+</html>

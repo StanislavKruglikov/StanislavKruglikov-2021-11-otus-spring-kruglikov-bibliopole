@@ -5,14 +5,11 @@
     <title>Библиотека</title>
 </head>
 <body>
-<div th:fragment="layout(contextObject,contentValue)" class="page-block">
-    <div th:replace="fragments/menu :: menu(contextObject='')"/>
-    <div class="content-block">
-        <div th:if="${contentValue != null}">
-            <div th:fragment="content(contentValue)" th:insert="${contentValue}"></div>
-        </div>
-    </div>
-    <div th:replace="fragments/footer :: footer(contextObject='books')" class="footer-block" />
+<div th:fragment="layout(menuBlock,contentValue)" class="page-block">
+    <div th:replace="fragments/menu :: menu(${menuBlock})"/>
+    <div class="content-block" th:if="${contentValue != null}" th:fragment="content(contentValue)"
+         th:insert="${contentValue}" />
+    <div th:replace="fragments/footer :: footer" class="footer-block" />
 </div>
 </body>
 </html>

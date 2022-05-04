@@ -11,10 +11,10 @@ import ru.otus.skruglikov.bibliopole.domain.Comment;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@DisplayName("класс CustomCommentRepositoryTest должен")
+@DisplayName("класс CustomCommentRepository должен")
 public class CustomCommentRepositoryTest {
     @Autowired
-    private CustomCommentRepositoryImpl customCommentRepository;
+    private CommentRepository customCommentRepository;
 
     @Autowired
     private BookRepository bookRepository;

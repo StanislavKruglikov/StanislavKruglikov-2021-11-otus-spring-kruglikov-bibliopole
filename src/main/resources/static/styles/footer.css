@@ -1,0 +1,15 @@
+.footer-bar {
+    margin-top: 5px;
+    border-top: 1px solid black;
+    background-color: darkgray;
+    background-image: url("/images/background-bar.jpg");
+    background-size: cover;
+}
+
+.footer-bar-content {
+    text-align: center;
+    min-height: 1.5em;
+}
+.footer-block {
+    flex: 0 1 40px;
+}

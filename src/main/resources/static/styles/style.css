@@ -1,48 +1,5 @@
-html, body {
-    height: 100%;
-    margin: 0;
-}
+@import "page.css";
+@import "menu.css";
+@import "content.css";
+@import "footer.css";
 
-.page-block {
-    display: flex;
-    flex-flow: column;
-    height: 100%;
-}
-
-.content-block {
-    flex: 1 1 auto;
-}
-
-.footer-block {
-    flex: 0 1 40px;
-}
-
-.field-error {
-    font-size: 70%;
-    font-style: italic;
-    color: red;
-}
-
-.menu-bar > ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: darkgray;
-}
-
-.menu-item {
-    display: inline;
-    float: left;
-}
-
-.menu-item a  {
-    display: block;
-    padding: 5px;
-    background-color: lightblue;
-}
-
-/*
-.menu-item-pic-add::after {
-    content: "+";
-}*/

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+    <link href="styles/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div th:replace="fragments/layout :: layout(menuBlock='books',contentValue=~{ :: #book-edit-layout-id})">
+        <div class="edit-form">
+            <form id="book-edit-layout-id" action="" method="POST" th:action="@{/book-save}" th:object="${book}">
+                <input name="id" type="hidden" value="" th:value="*{id}"/>
+                <div class="edit-form-field-line">
+                    <label for="book-edit-title">Название:</label>
+                    <input id="book-edit-title" name="title" th:field="*{title}" value="" placeholder="название" th:value="*{title}"/>
+                    <span th:each="err : ${#fields.errors('title')}" th:text="${err}" class="field-error" />
+                </div>
+                <div class="edit-form-field-line">
+                    <label for="book-edit-authorId">Автор:</label>
+                    <select id="book-edit-authorId" name="authorId" th:field="${book.authorId}">
+                        <option class="author" th:each="author : ${authors}" th:object="${author}" th:value="*{id}" th:text="*{lastName} + ' ' + *{firstName} + ' ' + *{patronymicName}"/>
+                        <option class="author" th:value="0" th:text="..."/>
+                    </select>
+                    <span th:each="err : ${#fields.errors('authorId')}" th:text="${err}" class="field-error" />
+                </div>
+                <div class="edit-form-field-line">
+                    <label for="book-edit-genreId">Жанр:</label>
+                    <select id="book-edit-genreId" name="genreId" th:field="${book.genreId}">
+                        <option class="genre" th:each="genre : ${genres}" th:object="${genre}" th:value="*{id}" th:text="*{name}"/>
+                        <option class="genre" th:value="0" th:text="..."/>
+                    </select>
+                    <span th:each="err : ${#fields.errors('genreId')}" th:text="${err}" class="field-error" />
+                </div>
+                <button type="submit" name="action" value="save">Сохранить</button>
+                <button type="submit" name="action" value="cancel">Отмена</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

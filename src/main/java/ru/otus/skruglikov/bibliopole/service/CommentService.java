@@ -1,17 +1,17 @@
 package ru.otus.skruglikov.bibliopole.service;
 
-import ru.otus.skruglikov.bibliopole.domain.Comment;
+import ru.otus.skruglikov.bibliopole.dto.CommentDTO;
 
 import java.util.List;
 
 public interface CommentService {
-    void createComment(String text, long bookId);
+    void createComment(CommentDTO commentDTO);
 
-    void updateComment(long id, String text, long bookId);
+    void updateComment(CommentDTO commentDTO);
 
-    Comment readCommentById(long id);
+    CommentDTO readCommentById(long id);
 
-    List<Comment> readAllCommentsByBookId(long bookId);
+    List<CommentDTO> readAllCommentsByBookId(long bookId);
 
-    void deleteComment(long bookId);
+    void deleteComment(long commentId);
 }

@@ -27,15 +27,16 @@ public class BookController {
     @GetMapping("book-list")
     public String getBookList(final Model model) {
         model.addAttribute("books",bookService.readAllBooks());
-        return "book-list";
+        return "lists/book-list";
     }
 
     @GetMapping("book-edit")
-    public String getBookEdit(ModelMap model, @Positive(message = "Ошибочный идентификатор книги id") final long bookId) {
+    public String getBookEdit(ModelMap model,
+                              @Positive(message = "Ошибочный идентификатор книги") final long bookId) {
         model.addAttribute("book", bookId > 0 ? bookService.readBookById(bookId) : new BookDTO());
         model.addAttribute("authors",authorService.readAllAuthors());
         model.addAttribute("genres",genreService.readAllGenres());
-        return "book-edit";
+        return "forms/book-edit";
     }
 
     @PostMapping("book-save")
@@ -44,14 +45,15 @@ public class BookController {
                            @Valid @ModelAttribute("book") final BookDTO book,
                            BindingResult bindingResult
                            ) {
-        final String resultView;
-        if(bindingResult.hasErrors()) {
-            resultView = "book-edit";
-        } else {
-            if ("save".equals(action)) {
+        String resultView = "redirect:book-list";
+        if("save".equals(action)) {
+            if(bindingResult.hasErrors()) {
+                model.addAttribute("authors",authorService.readAllAuthors());
+                model.addAttribute("genres",genreService.readAllGenres());
+                resultView = "forms/book-edit";
+            } else {
                 bookService.updateBook(book);
             }
-            resultView = "redirect:/book-list";
         }
         return resultView;
     }
@@ -61,4 +63,5 @@ public class BookController {
         bookService.deleteBook(bookId);
         return "redirect:book-list";
     }
+
 }

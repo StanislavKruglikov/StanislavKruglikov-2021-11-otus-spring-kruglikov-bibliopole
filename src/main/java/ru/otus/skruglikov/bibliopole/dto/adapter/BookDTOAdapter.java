@@ -7,11 +7,17 @@ import ru.otus.skruglikov.bibliopole.dto.BookDTO;
 
 public class BookDTOAdapter {
     public static BookDTO getDTO(final Book entity) {
+        final Genre genre = entity.getGenre();
+        final Author author = entity.getAuthor();
+        final String authorName = String.format("%s %s %s",author.getLastName(),author.getFirstName(),
+            author.getPatronymicName());
         return new BookDTO()
             .setId(entity.getId())
             .setTitle(entity.getTitle())
-            .setAuthorId(entity.getAuthor().getId())
-            .setGenreId(entity.getGenre().getId());
+            .setAuthorId(author.getId())
+            .setAuthorName(authorName)
+            .setGenreId(genre.getId())
+            .setGenreName(genre.getName());
     }
 
     public static Book getEntity(final BookDTO dto) {

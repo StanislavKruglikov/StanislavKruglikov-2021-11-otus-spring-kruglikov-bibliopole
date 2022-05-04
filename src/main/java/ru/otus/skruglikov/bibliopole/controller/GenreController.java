@@ -14,6 +14,6 @@ public class GenreController {
     @GetMapping("/genre-list")
     public String getGenreList(final Model model) {
         model.addAttribute("genres",genreService.readAllGenres());
-        return "genre-list";
+        return "lists/genre-list";
     }
 }

@@ -14,6 +14,8 @@ public class BookDTO {
     private String title;
     @Positive(message = "пропущен жанр")
     private long genreId;
+    private String genreName;
     @Positive(message = "пропущен автор")
     private long authorId;
+    private String authorName;
 }

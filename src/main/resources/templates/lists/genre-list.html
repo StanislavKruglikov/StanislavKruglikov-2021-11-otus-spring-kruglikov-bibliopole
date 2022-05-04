@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+    <link href="styles/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div th:replace="fragments/layout :: layout(menuBlock='genres', contentValue=(~{ :: #genre-list}))">
+        <div id="genre-list">
+            <div class="list-block" th:each="genre : ${genres}">
+                <div class="list-block-item">
+                    <div class="list-block-item-content">
+                        <div class="list-block-item-line">
+                            <div class="list-block-item-line-title">Название:</div><div th:text="${genre.name}"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-block-item-control-block"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
