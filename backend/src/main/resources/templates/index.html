@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+    <link href="styles/style.css" rel="stylesheet" />
+</head>
+<body>
+<div class="page-block">
+    <div class="menu-bar" th:fragment="menu(menuBlock)">
+        <ul>
+            <li class="menu-item"><a href="" th:href="home">Домой</a></li>
+            <li class="menu-item menu-item-active"><a href="book-list" >Книги</a></li>
+            <li class="menu-item"><a href="author-list">Авторы</a></li>
+            <li class="menu-item"><a href="genre-list">Жанры</a></li>
+        </ul>
+    </div>
+            <div class="content-block">
+                <div>Рады приветствовать Вас на стартовой странице приложения "БИБЛИОФИЛ"</div>
+                <div>Приложение предназначено для ведения домашней библиотеки</div>
+                <div>Здесь вы сможете сформировать каталог домашних книг с комментариями к ним</div>
+            </div>
+    <div class="footer-bar" th:fragment="footer">
+        <div class="footer-bar-content">БИБЛИОФИЛ &#169; 2022</div>
+    </div>
+</div>
+</body>
+</html>

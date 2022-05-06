@@ -1,0 +1,33 @@
+.menu-bar > ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: darkgray;
+    background-image: url("/images/background-bar.jpg");
+    background-size: cover;
+    border-bottom: 1px solid black;
+}
+
+.menu-item {
+    display: inline;
+    float: left;
+    width: 120px;
+    text-align: center;
+}
+
+.menu-item  {
+    display: block;
+    padding: 5px;
+    background-color: sandybrown;
+    font-size: xx-large;
+    opacity: 70%;
+    border-right: 3px solid #303030;
+    border-top-right-radius: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+.menu-item-active {
+    background-color: transparent; !important;
+}
