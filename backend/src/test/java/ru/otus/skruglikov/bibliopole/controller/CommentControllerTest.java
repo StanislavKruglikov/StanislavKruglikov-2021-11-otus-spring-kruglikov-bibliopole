@@ -22,8 +22,7 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -56,48 +55,6 @@ public class CommentControllerTest {
             .andExpect(model().attribute("comments", hasItems(expectedComments.get(0),expectedComments.get(1))))
             .andExpect(model().attribute("bookId",book.getId()));
 
-    }
-
-    @DisplayName("Должен возвращать страницу для создания комментария")
-    @Test
-    void shouldReturnPageForAddComment() throws Exception {
-        mockMvc.perform(get("/comment-edit")
-                .queryParam("action","edit")
-                .queryParam("commentId","0")
-                .queryParam("bookId","1")
-            ).andExpect(status().isOk())
-            .andExpect(view().name("forms/comment-edit"))
-            .andExpect(model().attribute("comment",new CommentDTO().setBookId(1)));
-    }
-
-    @DisplayName("Должен возвращать страницу для редактирования комментария")
-    @Test
-    void shouldReturnPageForEditComment() throws Exception {
-        final CommentDTO expectedComment = CommentDTOAdapter.getDTO(
-            new Comment(1,"text1",new Book(1,null,null,null))
-        );
-        when(commentService.readCommentById(1))
-            .thenReturn(expectedComment);
-
-        mockMvc.perform(get("/comment-edit")
-                .queryParam("action","edit")
-                .queryParam("commentId",String.valueOf(expectedComment.getId()))
-                .queryParam("bookId",String.valueOf(expectedComment.getBookId()))
-            ).andExpect(status().isOk())
-            .andExpect(view().name("forms/comment-edit"))
-            .andExpect(model().attribute("comment",expectedComment));
-    }
-
-    @DisplayName("Должен возвращаться к списку комментариев")
-    @Test
-    void shouldStepBackToCommentList() throws Exception {
-        mockMvc.perform(get("/comment-edit")
-                .param("action","step-back")
-                .param("commentId","0")
-                .param("bookId","0")
-            )
-            .andExpect(status().is3xxRedirection())
-            .andExpect(redirectedUrl("book-list"));
     }
 
     @DisplayName("Должен сохранять данные по книге")
@@ -145,11 +102,8 @@ public class CommentControllerTest {
         doNothing()
             .when(commentService)
             .deleteComment(commentId);
-        mockMvc.perform(get("/comment-delete")
-                .param("commentId",String.valueOf(commentId))
-                .param("bookId",String.valueOf(1))
-            ).andExpect(status().is3xxRedirection())
-            .andExpect(redirectedUrl("comment-list?bookId=1"));
+        mockMvc.perform(delete("/comment")
+                .param("id",String.valueOf(commentId)));
         verify(commentService,times(1))
             .deleteComment(commentId);
     }

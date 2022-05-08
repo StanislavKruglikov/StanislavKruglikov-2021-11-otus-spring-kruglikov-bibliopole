@@ -1,8 +1,7 @@
 import React from 'react'
-import {ContextHandler} from "../Context";
 
-export function MenuItem({menuItemTitle, menuItemContext, activeContext}) {
+export function MenuItem({menuItemTitle, menuItemContext, activeContext, onClickHandler}) {
     return <li className={activeContext === menuItemContext ? "menu-item menu-item-active" : "menu-item"}
-               onClick={(event) => ContextHandler(menuItemContext)}>{menuItemTitle}
+               onClick={(event) => onClickHandler(menuItemContext)}>{menuItemTitle}
     </li>
 }

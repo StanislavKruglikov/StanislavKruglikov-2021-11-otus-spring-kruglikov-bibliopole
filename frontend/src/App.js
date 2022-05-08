@@ -9,8 +9,9 @@ const books = [
 ];
 
 export function App() {
+    const [activeContext,setActiveContext] = React.useState('home');
     return <>
-        <Menu/>
+        <Menu activeContext={activeContext} activeContextHandler={ (activeContext) => { return ()=>{ alert('ddddd'); } }}  />
         <div className="content-block">
             <BookList books={books}/>
         </div>

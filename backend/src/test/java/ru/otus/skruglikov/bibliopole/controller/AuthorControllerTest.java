@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -38,12 +38,10 @@ public class AuthorControllerTest {
         when(authorService.readAllAuthors())
             .thenReturn(expectedAuthors);
 
-        mockMvc.perform(get("/author-list"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("lists/author-list"))
-            .andExpect(model().attribute("authors",hasSize(2)))
-            .andExpect(model().attribute("authors", hasItems(expectedAuthors.get(0),expectedAuthors.get(1))));
-
+        mockMvc.perform(get("/author"))
+            .andExpect(status().isOk());
+        verify(authorService,times(1))
+            .readAllAuthors();
     }
 
 }

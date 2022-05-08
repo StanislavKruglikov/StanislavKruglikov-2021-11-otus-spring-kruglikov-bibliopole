@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -37,12 +37,10 @@ public class GenreControllerTest {
         when(genreService.readAllGenres())
             .thenReturn(expectedGenres);
 
-        mockMvc.perform(get("/genre-list"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("lists/genre-list"))
-            .andExpect(model().attribute("genres",hasSize(2)))
-            .andExpect(model().attribute("genres", hasItems(expectedGenres.get(0),expectedGenres.get(1))));
-
+        mockMvc.perform(get("/genre"))
+            .andExpect(status().isOk());
+        verify(genreService,times(1))
+            .readAllGenres();
     }
 
 }
