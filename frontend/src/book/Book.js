@@ -1,11 +1,7 @@
-import React from "react";
-import {EditBookAction} from "./BookActions";
-
-export function Book({book}) {
+export function Book({book, onEditHandler, onDeleteHandler, onCommentsHandler}) {
     return <div className="list-block-item">
-        <div className="list-block-item-content">
-            <a className="link-content" href="" onClick={(event) =>
-                EditBookAction({book: book}) }>
+        <div className="list-block-item-content edit-point">
+            <span className="link-content link-action" href="" onClick={(event) => onEditHandler({book: book}) }>
                 <div className="list-block-item-line">
                     <div className="list-block-item-line-title">Название:</div>
                     <div className="list-block-item-line-value">{book.title}</div>
@@ -18,11 +14,13 @@ export function Book({book}) {
                     <div className="list-block-item-line-title">Жанр:</div>
                     <div className="list-block-item-line-value">{book.genreName}</div>
                 </div>
-            </a>
+            </span>
         </div>
         <div className="list-block-item-control-block">
-            <a className="list-block-item-control-block-first link-action" href="">комментарии</a>
-            <a className="list-block-item-control-second link-action" href="">удалить книгу</a>
+            <span className="list-block-item-control-block-first link-action detail-point" href=""
+                onClick={(event)=> onCommentsHandler(book)}>комментарии</span>
+            <span className="list-block-item-control-second link-action delete-point" href=""
+                onClick={(event)=> onDeleteHandler(book)}>удалить книгу</span>
         </div>
     </div>
 }

@@ -1,20 +1,19 @@
 import React from 'react'
-import {BookList} from "./book/BookList";
-import {Menu} from "./menu/Menu";
-import {Footer} from "./footer/Footer";
-
-const books = [
-    {id: 1, title:'dddd',authorName:'aaaa',genreName:'gggggg'},
-    {id: 2, title:'dddd22',authorName:'aaaa222',genreName:'gggggg222'}
-];
+import {MenuBar} from "./layout/menu/MenuBar";
+import {menuData} from "./layout/menu/MenuApi";
+import {Footer} from "./layout/footer/Footer";
+import {Body} from "./layout/Body"
 
 export function App() {
-    const [activeContext,setActiveContext] = React.useState('home');
+    const [menuItems,setMenuItems] = React.useState(menuData);
+    const [activeContext,setActiveContext] = React.useState(menuItems.filter(i=>i.active===true)[0].context);
     return <>
-        <Menu activeContext={activeContext} activeContextHandler={ (activeContext) => { return ()=>{ alert('ddddd'); } }}  />
-        <div className="content-block">
-            <BookList books={books}/>
-        </div>
+        <MenuBar menuData={menuData} activeContext={activeContext} onClick={
+        (menuData,contextValue) => {
+            setActiveContext(contextValue);
+            setMenuItems(menuData);
+        }}/>
+        <Body activeContext={activeContext}/>
         <Footer/>
         </>
 }

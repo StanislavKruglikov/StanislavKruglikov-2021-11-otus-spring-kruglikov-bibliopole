@@ -74,3 +74,15 @@
     display: inline-block;
     width: 100px;
 }
+
+.delete-point:hover {
+    cursor: pointer;
+}
+
+.detail-point:hover {
+    cursor: pointer;
+}
+
+.edit-point:hover {
+    cursor: pointer;
+}
