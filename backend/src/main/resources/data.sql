@@ -13,4 +13,8 @@ insert into BOOK ( TITLE, GENRE_ID, AUTHOR_ID) values ( 'Чисто англий
 
 insert into COMMENT ( TEXT , BOOK_ID) values( 'Замечательное прозиведение, прочел на одном дыхании.', 1);
 insert into COMMENT ( TEXT , BOOK_ID) values( 'Захватывает сюжет.', 1);
+insert into COMMENT ( TEXT , BOOK_ID) values( 'Хорошо но мало, и как всегда на самом интересном месте конец сюжета!', 1);
+insert into COMMENT ( TEXT , BOOK_ID) values( 'Хватит кормить нас всякой чепухой! Сколько можно! Что себе думает этот автор!', 1);
 insert into COMMENT ( TEXT , BOOK_ID) values( 'Слегка затянуто, но почитать на досуге можно.', 2);
+insert into COMMENT ( TEXT , BOOK_ID) values( 'Легкое чтение для выходного дня, рекоммендую любителям беллетристики.', 3);
+insert into COMMENT ( TEXT , BOOK_ID) values( 'Не читал, но полагаю что не очень, все эти детективы, сами знаете...', 4);

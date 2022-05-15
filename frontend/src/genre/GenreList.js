@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {Genre} from "./Genre";
+import {GenreListItem} from "./GenreListItem";
 import {getGenres} from "../genre/GenreApi";
 
 export function GenreList() {
@@ -11,7 +11,7 @@ export function GenreList() {
     },[]);
     return <div className="list-block-item">
         <div id="genre-list">
-            { genres.map(genre => <Genre key={genre.id} genre={genre} />) }
+            { genres.map(genre => <GenreListItem key={genre.id} genre={genre} />) }
         </div>
     </div>
 }

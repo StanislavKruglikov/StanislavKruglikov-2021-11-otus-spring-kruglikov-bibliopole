@@ -1,4 +1,4 @@
-export function Book({book, onEditHandler, onDeleteHandler, onCommentsHandler}) {
+export function BookListItem({book, onEditHandler, onDeleteHandler, onCommentsHandler}) {
     return <div className="list-block-item">
         <div className="list-block-item-content edit-point">
             <span className="link-content link-action" href="" onClick={(event) => onEditHandler({book: book}) }>

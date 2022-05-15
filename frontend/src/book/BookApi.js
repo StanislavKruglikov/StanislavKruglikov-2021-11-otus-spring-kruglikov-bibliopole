@@ -9,14 +9,30 @@ export async function getBooks() {
     return books;
 }
 
+export async function saveBook(bookToSave) {
+    let book;
+    try{
+        const response = fetch(`/book`,{
+            method: bookToSave.id ? "put" : "post",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(bookToSave)
+        });
+        if(response.status !== 200) {
+                throw new Error(`Ошибка сохранения ниг, статус: ${response.status}`);
+        }
+        book = await response.json();
+    } catch(e) {
+        console.log(e);
+    }
+    return book;
+}
+
 export async function deleteBook(book) {
     try{
         const response = fetch(`/book/${book.id}`,{
             method: "delete",
-            headers: {},
             body: {}
         });
-       // books = await response.json();
     } catch(e) {
         console.log(e);
     }

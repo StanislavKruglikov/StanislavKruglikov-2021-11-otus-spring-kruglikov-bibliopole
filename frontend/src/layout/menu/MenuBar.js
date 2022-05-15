@@ -1,14 +1,18 @@
 import React from 'react'
 import {MenuItem} from "./MenuItem";
+import {menuData} from "./MenuApi";
 
-export function MenuBar({menuData, activeContext, onClick}) {
+export function MenuBar({activeContext, changeContextHandler}) {
+    const [menuItems,setMenuItems] = React.useState(menuData);
     return <div className="menu-bar">
         <ul>{menuData.map((item) => {
+                item.active = item.context === activeContext.contextValue;
                 return <MenuItem key={item.context}
                     menuItem={item}
-                    onClick = {  (contextValue) => {
-                        menuData.forEach((item) => item.active = item.context === contextValue);
-                        onClick(menuData,contextValue);
+                    onClick = {  (menuItem) => {
+                        const changedActiveContext = {...activeContext};
+                        changedActiveContext.contextValue = menuItem.context;
+                        changeContextHandler(changedActiveContext);
                     }}/>
             })}
         </ul>

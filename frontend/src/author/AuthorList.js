@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {Author} from "./Author";
+import {AuthorLineItem} from "./AuthorLineItem";
 import {getAuthors} from "../author/AuthorApi";
 
 export function AuthorList() {
@@ -12,7 +12,7 @@ export function AuthorList() {
 
     return <div className="list-block-item">
         <div id="author-list">
-            { authors.map(author => <Author key={author.id} author={author} />) }
+            { authors.map(author => <AuthorLineItem key={author.id} author={author} />) }
         </div>
     </div>
 }
