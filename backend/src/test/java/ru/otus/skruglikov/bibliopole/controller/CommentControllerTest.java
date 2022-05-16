@@ -5,12 +5,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.skruglikov.bibliopole.domain.Author;
 import ru.otus.skruglikov.bibliopole.domain.Book;
 import ru.otus.skruglikov.bibliopole.domain.Comment;
 import ru.otus.skruglikov.bibliopole.domain.Genre;
+import ru.otus.skruglikov.bibliopole.dto.BookDTO;
 import ru.otus.skruglikov.bibliopole.dto.CommentDTO;
+import ru.otus.skruglikov.bibliopole.dto.adapter.BookDTOAdapter;
 import ru.otus.skruglikov.bibliopole.dto.adapter.CommentDTOAdapter;
 import ru.otus.skruglikov.bibliopole.service.AuthorService;
 import ru.otus.skruglikov.bibliopole.service.CommentService;
@@ -36,63 +39,53 @@ public class CommentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @DisplayName("Должен возвращать список комментариев")
+    @DisplayName("Должен возвращать данные по комментарию")
     @Test
-    void shouldGetCommentList() throws Exception {
-        final Book book = new Book(1,null,null,null);
-        final List<CommentDTO> expectedComments = List.of(
-            CommentDTOAdapter.getDTO(new Comment(1,"text1",book)),
-            CommentDTOAdapter.getDTO(new Comment(2,"text1",book))
-            );
-        when(commentService.readAllCommentsByBookId(book.getId()))
-            .thenReturn(expectedComments);
-
-        mockMvc.perform(get("/comment-list")
-                .param("bookId",String.valueOf(book.getId())))
-            .andExpect(status().isOk())
-            .andExpect(view().name("lists/comment-list"))
-            .andExpect(model().attribute("comments",hasSize(2)))
-            .andExpect(model().attribute("comments", hasItems(expectedComments.get(0),expectedComments.get(1))))
-            .andExpect(model().attribute("bookId",book.getId()));
-
-    }
-
-    @DisplayName("Должен сохранять данные по книге")
-    @Test
-    void shouldSaveComment() throws Exception {
+    void shouldGetComment() throws Exception {
         final CommentDTO expectedComment = CommentDTOAdapter.getDTO(
             new Comment(1,"text1",new Book(11,null,null,null))
         );
-        doNothing()
-            .when(commentService)
-            .updateComment(expectedComment);
+        when(commentService.readCommentById(expectedComment.getId()))
+            .thenReturn(expectedComment);
 
-        mockMvc.perform(post("/comment-save")
-                .param("action","save")
-                .flashAttr("comment", expectedComment)
-            )
-            .andExpect(status().is3xxRedirection())
-            .andExpect(redirectedUrl("comment-list?bookId="+expectedComment.getBookId()));
-        verify(commentService,times(1))
-            .updateComment(expectedComment);
+        mockMvc.perform(get("/comment/{id}",expectedComment.getId()))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(expectedComment.getId()))
+            .andExpect(jsonPath("$.text").value(expectedComment.getText()));
     }
 
-    @DisplayName("Должен проверять данные формы до сохранения, при ошибках возвращать исходную форму")
+    @DisplayName("Должен добавлять комменатирй")
     @Test
-    void shouldValidateDataBeforeSaveComment() throws Exception {
-        final CommentDTO wrongDataComment = new CommentDTO();
-        doNothing()
-            .when(commentService)
-            .updateComment(wrongDataComment);
+    void shouldAddComment() throws Exception {
+        final Book book = new Book(1,"text1",new Genre(1,""),
+            new Author(1,"","",""));
+        final CommentDTO commentDTO = CommentDTOAdapter.getDTO(new Comment(0,"comment1",book));
+        final String commentDTOAsString = "{\"id\": 0, \"text\": \"comment1\", \"bookId\": 1}";
+        when(commentService.createComment(commentDTO))
+            .thenReturn(commentDTO);
+        mockMvc.perform(post("/comment")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(commentDTOAsString))
+            .andExpect(status().isOk());
+        verify(commentService,times(1))
+            .createComment(commentDTO);
+    }
 
-        mockMvc.perform(post("/comment-save")
-                .param("action","save")
-                .flashAttr("book", wrongDataComment)
-            )
-            .andExpect(status().isOk())
-            .andExpect(view().name("forms/comment-edit"));
-        verify(commentService,times(0))
-            .updateComment(wrongDataComment);
+    @DisplayName("Должен обновлять данные по книге")
+    @Test
+    void shouldUpdateBook() throws Exception {
+        final Book book = new Book(1,"text1",new Genre(1,""),
+            new Author(1,"","",""));
+        final CommentDTO commentDTO = CommentDTOAdapter.getDTO(new Comment(1,"comment1",book));
+        final String commentDTOAsString = "{\"id\": 1, \"text\": \"comment1\", \"bookId\": 1}";
+        when(commentService.updateComment(commentDTO))
+            .thenReturn(commentDTO);
+        mockMvc.perform(put("/comment")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(commentDTOAsString))
+            .andExpect(status().isOk());
+        verify(commentService,times(1))
+            .updateComment(commentDTO);
     }
 
     @DisplayName("Должен удалять комментарий по заданному id")
@@ -102,8 +95,8 @@ public class CommentControllerTest {
         doNothing()
             .when(commentService)
             .deleteComment(commentId);
-        mockMvc.perform(delete("/comment")
-                .param("id",String.valueOf(commentId)));
+        mockMvc.perform(delete("/comment/{id}",commentId))
+            .andExpect(status().isOk());
         verify(commentService,times(1))
             .deleteComment(commentId);
     }

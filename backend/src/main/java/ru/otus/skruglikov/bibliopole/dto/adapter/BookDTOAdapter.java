@@ -10,7 +10,8 @@ public class BookDTOAdapter {
         final Genre genre = entity.getGenre();
         final Author author = entity.getAuthor();
         final String authorName = String.format("%s %s %s",author.getLastName(),author.getFirstName(),
-            author.getPatronymicName());
+            author.getPatronymicName())
+            .trim();
         return new BookDTO()
             .setId(entity.getId())
             .setTitle(entity.getTitle())
