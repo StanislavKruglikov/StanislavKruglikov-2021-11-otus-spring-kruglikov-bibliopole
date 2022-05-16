@@ -1,6 +1,3 @@
-import React from "react";
-
-export const authors = [];
 
 export async function getAuthors() {
     const response = await fetch('/author');

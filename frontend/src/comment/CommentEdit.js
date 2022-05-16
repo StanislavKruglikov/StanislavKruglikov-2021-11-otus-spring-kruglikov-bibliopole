@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {saveComment} from "./CommentApi";
 
 export function CommentEdit({activeContext, changeContextHandler}) {
@@ -9,8 +9,9 @@ export function CommentEdit({activeContext, changeContextHandler}) {
             <div className="edit-form-field-line">
                 <textarea id="comment-edit-text" name="text" value={comment.text} rows={5} cols={50} placeholder="текст комментария"
                  onChange={(event)=> {
-                    comment[event.target.name] = event.target.value;
-                    setComment(comment);
+                    const editedComment = {...comment};
+                    editedComment[event.target.name] = event.target.value;
+                    setComment(editedComment);
                     setCommentValidation(validation(comment));
                  }}/>
                  <span className={!commentValidation.text ? "edit-form-field-error-off" : "edit-form-field-error-on"}/>

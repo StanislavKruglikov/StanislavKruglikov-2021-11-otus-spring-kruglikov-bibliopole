@@ -38,6 +38,9 @@ export async function deleteComment(comment) {
             headers: {},
             body: {}
         });
+        if(response.status !== 200) {
+            throw new Error(`Ошибка удаления комментария, статус: ${response.status}`);
+        }
     } catch(e) {
         console.log(e);
     }

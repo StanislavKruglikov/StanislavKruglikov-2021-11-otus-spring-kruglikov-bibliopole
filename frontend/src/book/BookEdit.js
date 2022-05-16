@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {AuthorComboBox} from "../author/AuthorComboBox";
 import {saveBook} from "./BookApi";
 import {GenreComboBox} from "../genre/GenreComboBox";

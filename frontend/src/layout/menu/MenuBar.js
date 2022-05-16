@@ -3,7 +3,6 @@ import {MenuItem} from "./MenuItem";
 import {menuData} from "./MenuApi";
 
 export function MenuBar({activeContext, changeContextHandler}) {
-    const [menuItems,setMenuItems] = React.useState(menuData);
     return <div className="menu-bar">
         <ul>{menuData.map((item) => {
                 item.active = item.context === activeContext.contextValue;

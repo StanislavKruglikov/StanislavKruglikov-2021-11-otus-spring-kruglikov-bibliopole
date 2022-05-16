@@ -1,4 +1,3 @@
-export const books = [];
 
 export async function getBooks() {
     const response = await fetch('/book');
@@ -18,7 +17,7 @@ export async function saveBook(bookToSave) {
             body: JSON.stringify(bookToSave)
         });
         if(response.status !== 200) {
-                throw new Error(`Ошибка сохранения ниг, статус: ${response.status}`);
+                throw new Error(`Ошибка сохранения книг, статус: ${response.status}`);
         }
         book = await response.json();
     } catch(e) {
@@ -33,6 +32,9 @@ export async function deleteBook(book) {
             method: "delete",
             body: {}
         });
+        if(response.status !== 200) {
+                throw new Error(`Ошибка удаления книги, статус: ${response.status}`);
+        }
     } catch(e) {
         console.log(e);
     }
