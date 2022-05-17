@@ -33,7 +33,8 @@ export async function saveComment(commentToSave) {
 
 export async function deleteComment(comment) {
     try{
-        const response = fetch(`/comment/${comment.id}`,{
+        console.log("start deleteComment");
+        const response = await fetch(`/comment/${comment.id}`,{
             method: "delete",
             headers: {},
             body: {}
@@ -41,6 +42,7 @@ export async function deleteComment(comment) {
         if(response.status !== 200) {
             throw new Error(`Ошибка удаления комментария, статус: ${response.status}`);
         }
+        console.log("end deleteComment");
     } catch(e) {
         console.log(e);
     }

@@ -11,7 +11,7 @@ export function Body({activeContext, changeContextHandler}) {
     if(activeContext.contextValue === 'home') {
        return <div className="content-block"><Home/></div>
     } else if(activeContext.contextValue === 'books') {
-        if(activeContext.action === 'comment-list') {
+        if(activeContext.action === 'comments') {
             return <div className="content-block">
                 <CommentList activeContext={activeContext} changeContextHandler={changeContextHandler} />
             </div>

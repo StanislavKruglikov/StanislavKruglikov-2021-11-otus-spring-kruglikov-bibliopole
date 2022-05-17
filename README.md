@@ -1,8 +1,20 @@
 # 2021-11-otus-spring-kruglikov-database
 2021-11-otus-spring-kruglikov-database-homework 
 
-Домашнее задание №9
+Домашнее задание №10
 
-CRUD приложение с Web UI и хранением данных в БД
+Cоздать современные приложения, как основанные на AJAX архитектуре и jQuery, так и SPA-приложения на React.
 
-https://github.com/thymeleaf/thymeleafexamples-layouts.git
+### tasks
+
+|   Frontend task   | Discription                                                 |
+|:-----------------:|:------------------------------------------------------------|
+|  **npm install**  | Устанавливает модули для разработки front части приложения. |
+| **npm run start** | Запускает сервер разработики front части приложенимя.       |
+| **npm run build** | Собриает React приложение для выполнения в браузере         |
+
+
+
+|   Backend task    | Discription                                                                           |
+|:-----------------:|:--------------------------------------------------------------------------------------|
+| **mvn exec:exec** | Копирует скопилировнные frontend часть приложения в папку public.<br/> |

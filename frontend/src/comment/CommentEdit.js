@@ -30,14 +30,11 @@ function onSubmitHandler(event, activeContext, comment, commentValidation, chang
         } else {
              saveComment(comment)
              .then((comment)=>
-                changeContextHandler({...activeContext,contextObject: {bookId: comment.bookId}, action: 'comment-list'})
+                changeContextHandler({...activeContext,contextObject: {bookId: comment.bookId}, action: 'comments'})
             );
          }
      } else {
-         const changedActiveContext = {...activeContext};
-         changedActiveContext.contextObject = undefined;
-         changedActiveContext.action = 'comment-list';
-         changeContextHandler(changedActiveContext);
+         changeContextHandler({...activeContext,contextObject: {bookId: comment.bookId}, action: 'comments' });
      }
 }
 

@@ -5,8 +5,8 @@ import {getBooks, deleteBook} from "../book/BookApi";
 export function BookList({activeContext, changeContextHandler}) {
     const [books,setBooks] = useState([]);
     useEffect(() => {
-        getBooks().then((books) => {
-            setBooks(books);
+        getBooks().then((newBooks) => {
+            setBooks(newBooks);
         });
     },[]);
     return <div id="book-list">
@@ -17,8 +17,18 @@ export function BookList({activeContext, changeContextHandler}) {
             key={book.id}
             book={book}
             onEditHandler={()=> changeContextHandler({...activeContext,contextObject: book,action: 'book-edit'})}
-            onDeleteHandler={ (book) => deleteBook(book).then( getBooks().then((books) => setBooks(books)))}
-            onCommentsHandler={(book)=> changeContextHandler({...activeContext,contextObject: {bookId: book.id},action: 'comment-list'})}
+            onDeleteHandler={ (book) => {
+                console.log("start delete book");
+                deleteBook(book)
+                    .then(() => {
+                        getBooks()
+                            .then((newBooks) => {
+                                console.log("set new book list");
+                                setBooks(newBooks);
+                            });
+                    })
+            }}
+            onCommentsHandler={(book)=> changeContextHandler({...activeContext,contextObject: {bookId: book.id},action: 'comments'})}
             />)
         }
     </div>

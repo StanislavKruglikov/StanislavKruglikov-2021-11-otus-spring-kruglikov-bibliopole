@@ -9,6 +9,9 @@
     <version>1.0</version>
     <name>bibliopole</name>
     <description>The application help maintenance personal library</description>
+
+    <packaging>pom</packaging>
+
     <modules>
         <module>backend</module>
     </modules>

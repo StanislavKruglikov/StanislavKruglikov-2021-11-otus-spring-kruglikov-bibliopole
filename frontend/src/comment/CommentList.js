@@ -26,9 +26,19 @@ export function CommentList({activeContext, changeContextHandler}) {
         { comments.map(comment => <CommentListItem
             key={comment.id}
             comment={comment}
-            onEditHandler={(comment)=> alert("edit comment.text"+comment.text)}
-            onDeleteHandler={(comment) =>
-                deleteComment(comment).then( getComments(bookId).then((comments) => setComments(comments)))}
+            onEditHandler={()=> changeContextHandler({...activeContext,action: 'comment-edit',contextObject: comment})}
+            onDeleteHandler={() => {
+                console.log("start delete comment");
+                deleteComment(comment)
+                    .then(() => {
+                        getComments(bookId)
+                        .then((listComments) => {
+                            console.log("set new comment list");
+                            setComments(listComments);
+                        });
+                    }
+                    )
+                }}
             />)
         }
     </div>

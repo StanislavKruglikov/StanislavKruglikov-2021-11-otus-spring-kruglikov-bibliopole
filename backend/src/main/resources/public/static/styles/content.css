@@ -69,8 +69,54 @@
     margin: 10px;
 }
 
+.edit-form-field-line {
+    width: 500px;
+}
+
 .edit-form-field-line label {
     text-align: right;
     display: inline-block;
     width: 100px;
+    margin-right: 5px;
+}
+
+.edit-form-field-error-on {
+    font-weight: bold;
+    color: red;
+}
+
+.edit-form-field-error-on:after {
+    content: "*"
+}
+
+.edit-form-field-error-off {
+    display: none;
+}
+
+.edit-form-field-line input {
+    width: 60%;
+}
+
+.edit-form-field-line select {
+    width: 60%;
+}
+
+.step-back-point:hover {
+    cursor: pointer;
+}
+
+.add-point:hover {
+    cursor: pointer;
+}
+
+.delete-point:hover {
+    cursor: pointer;
+}
+
+.detail-point:hover {
+    cursor: pointer;
+}
+
+.edit-point:hover {
+    cursor: pointer;
 }

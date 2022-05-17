@@ -2,7 +2,7 @@
     margin-top: 5px;
     border-top: 1px solid black;
     background-color: darkgray;
-    background-image: url("/images/background-bar.jpg");
+    background-image: url("/static/images/background-bar.jpg");
     background-size: cover;
 }
 

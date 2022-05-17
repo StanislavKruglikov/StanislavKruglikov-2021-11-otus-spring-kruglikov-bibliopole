@@ -28,7 +28,7 @@ export async function saveBook(bookToSave) {
 
 export async function deleteBook(book) {
     try{
-        const response = fetch(`/book/${book.id}`,{
+        const response = await fetch(`/book/${book.id}`,{
             method: "delete",
             body: {}
         });
