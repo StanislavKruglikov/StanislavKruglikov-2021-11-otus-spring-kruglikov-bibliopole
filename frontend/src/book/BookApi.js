@@ -1,6 +1,6 @@
 
 export async function getBooks() {
-    const response = await fetch('/book');
+    const response = await fetch('/api/book');
     if(response.status !== 200) {
         throw new Error(`Ошибка получения списка книг, статус: ${response.status}`);
     }
@@ -11,7 +11,7 @@ export async function getBooks() {
 export async function saveBook(bookToSave) {
     let book;
     try{
-        const response = fetch(`/book`,{
+        const response = fetch('/api/book',{
             method: bookToSave.id ? "put" : "post",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(bookToSave)
@@ -28,7 +28,7 @@ export async function saveBook(bookToSave) {
 
 export async function deleteBook(book) {
     try{
-        const response = await fetch(`/book/${book.id}`,{
+        const response = await fetch(`/api/book/${book.id}`,{
             method: "delete",
             body: {}
         });

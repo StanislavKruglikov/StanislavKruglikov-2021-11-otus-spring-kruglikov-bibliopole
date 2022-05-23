@@ -11,10 +11,10 @@ export function AuthorComboBox({id, name, selectValue, onSelectHandler}) {
 
     return <select id={id} name={name} value={selectValue} onChange={onSelectHandler}>
             { authors.map(author => {
-                return <option key={author.id} className="author" value={author.id}>
+                return <option key={author.id} className="author" value={author.id} data={JSON.stringify(author)}>
                     {author.firstName +' '+author.lastName +' '+author.patronymicName}
                 </option>;
             })}
-            <option className="author" value="0">...</option>
+            <option className="author" value="">...</option>
         </select>
 }

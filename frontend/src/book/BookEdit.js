@@ -4,8 +4,8 @@ import {saveBook} from "./BookApi";
 import {GenreComboBox} from "../genre/GenreComboBox";
 
 export function BookEdit({activeContext, changeContextHandler}) {
-    const [book,setBook] = useState(activeContext.contextObject || {});
-    const [bookValidation,setBookValidation] = useState(validation(activeContext.contextObject));
+    const [book,setBook] = useState(activeContext.contextObject || {title: undefined,author: undefined,genre: undefined});
+    const [bookValidation,setBookValidation] = useState(validation(book));
     return <div className="edit-form">
         <form id="book-edit-layout-id" onSubmit={(event)=> onSubmitHandler(event, activeContext, book, bookValidation, changeContextHandler) }>
             <input name="id" type="hidden" value={book.id}/>
@@ -17,29 +17,29 @@ export function BookEdit({activeContext, changeContextHandler}) {
                     setBook(book);
                     setBookValidation(validation(book));
                  }}/>
-                 <span className={!bookValidation.title ? "edit-form-field-error-off" : "edit-form-field-error-on"}/>
+                 <span className={book.title ? "edit-form-field-error-off" : "edit-form-field-error-on"}/>
             </div>
             <div className="edit-form-field-line">
                 <label htmlFor="book-edit-authorId">Автор:</label>
-                <AuthorComboBox key={'book-edit-authorId'} id={'book-edit-authorId'} selectValue={book.authorId}
-                    name={'authorId'}
+                <AuthorComboBox key={'book-edit-authorId'} id={'book-edit-authorId'} selectValue={book.author?.id}
+                    name={'author'}
                     onSelectHandler={(event) => {
-                        book[event.target.name] = event.target.value;
+                        book[event.target.name] = JSON.parse(event.target.selectedOptions[0]?.getAttribute('data'));
                         setBook(book);
                         setBookValidation(validation(book));
                     }}/>
-                <span className={!bookValidation.authorId ? "edit-form-field-error-off" : "edit-form-field-error-on"}/>
+                <span className={book.author ? "edit-form-field-error-off" : "edit-form-field-error-on"}/>
             </div>
             <div className="edit-form-field-line">
                 <label htmlFor="book-edit-genreId">Жанр:</label>
-                <GenreComboBox key={'book-edit-genreId'} id={'book-edit-genreId'} selectValue={book.genreId}
-                    name={'genreId'}
+                <GenreComboBox key={'book-edit-genreId'} id={'book-edit-genreId'} selectValue={book.genre?.id}
+                    name={'genre'}
                     onSelectHandler={(event) => {
-                        book[event.target.name] = event.target.value;
+                        book[event.target.name] = JSON.parse(event.target.selectedOptions[0]?.getAttribute('data'));
                         setBook(book);
                         setBookValidation(validation(book));
                     }}/>
-                <span className={!bookValidation.genreId ? "edit-form-field-error-off" : "edit-form-field-error-on"}/>
+                <span className={book.genre ? "edit-form-field-error-off" : "edit-form-field-error-on"}/>
             </div>
             <button type="submit" name="actionSave" value="save">Сохранить</button>
             <button type="submit" name="actionCancel" value="cancel">Отмена</button>
@@ -70,11 +70,7 @@ function onSubmitHandler(event, activeContext, book, bookValidation, changeConte
 }
 
 function validation(editedBook) {
-    const bookValidation = {
-        title: !(editedBook?.title?.length > 0),
-        authorId: !(editedBook?.authorId > 0),
-        genreId: !(editedBook?.genreId > 0)
+    return {
+        count: Object.values(editedBook).filter(field => !field).length
     };
-    bookValidation.count = Object.values(bookValidation).filter(field => field).length;
-    return bookValidation;
 }

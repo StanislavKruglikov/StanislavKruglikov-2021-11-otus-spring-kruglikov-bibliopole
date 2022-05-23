@@ -8,11 +8,11 @@ export function BookListItem({book, onEditHandler, onDeleteHandler, onCommentsHa
                 </div>
                 <div className="list-block-item-line">
                     <div className="list-block-item-line-title">Автор:</div>
-                    <div>{book.authorName}</div>
+                    <div>{book.author?.lastName+' '+book.author?.patronymicName+' '+book.author?.firstName}</div>
                 </div>
                 <div className="list-block-item-line">
                     <div className="list-block-item-line-title">Жанр:</div>
-                    <div className="list-block-item-line-value">{book.genreName}</div>
+                    <div className="list-block-item-line-value">{book.genre?.name}</div>
                 </div>
             </span>
         </div>

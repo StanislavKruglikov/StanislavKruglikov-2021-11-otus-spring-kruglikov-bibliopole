@@ -1,7 +1,7 @@
 export const comments = [];
 
 export async function getComments(bookId) {
-    const response = await fetch(`/book/${bookId}/comment`);
+    const response = await fetch(`/api/book/${bookId}/comment`);
     if(response.status !== 200) {
         throw new Error(`Ошибка получения списка комментариев, статус: ${response.status}`);
     }
@@ -10,7 +10,7 @@ export async function getComments(bookId) {
 }
 
 export async function getComment(commentId) {
-    const response = await fetch(`/comment/${commentId}`);
+    const response = await fetch(`/api/comment/${commentId}`);
     if(response.status !== 200) {
         throw new Error(`Ошибка получения комментария, статус: ${response.status}`);
     }
@@ -19,7 +19,7 @@ export async function getComment(commentId) {
 }
 
 export async function saveComment(commentToSave) {
-    const response = await fetch('/comment',{
+    const response = await fetch('/api/comment',{
         method: commentToSave.id ? "put" : "post",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(commentToSave)
@@ -34,7 +34,7 @@ export async function saveComment(commentToSave) {
 export async function deleteComment(comment) {
     try{
         console.log("start deleteComment");
-        const response = await fetch(`/comment/${comment.id}`,{
+        const response = await fetch(`/api/comment/${comment.id}`,{
             method: "delete",
             headers: {},
             body: {}

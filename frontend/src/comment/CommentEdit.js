@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import {saveComment} from "./CommentApi";
 
 export function CommentEdit({activeContext, changeContextHandler}) {
-    const [comment,setComment] = useState(activeContext.contextObject || {});
-    const [commentValidation,setCommentValidation] = useState(validation(activeContext.contextObject));
+    const [comment,setComment] = useState({text: undefined,...activeContext.contextObject});
+    const [commentValidation,setCommentValidation] = useState(validation(comment));
     return <div className="edit-form">
         <form id="comment-edit-layout-id" onSubmit={(event)=> onSubmitHandler(event, activeContext, comment, commentValidation, changeContextHandler)}>
             <div className="edit-form-field-line">
@@ -14,7 +14,7 @@ export function CommentEdit({activeContext, changeContextHandler}) {
                     setComment(editedComment);
                     setCommentValidation(validation(comment));
                  }}/>
-                 <span className={!commentValidation.text ? "edit-form-field-error-off" : "edit-form-field-error-on"}/>
+                 <span className={comment.text ? "edit-form-field-error-off" : "edit-form-field-error-on"}/>
             </div>
             <button type="submit" name="actionSave" value="save">Сохранить</button>
             <button type="submit" name="actionCancel" value="cancel">Отмена</button>
@@ -30,18 +30,16 @@ function onSubmitHandler(event, activeContext, comment, commentValidation, chang
         } else {
              saveComment(comment)
              .then((comment)=>
-                changeContextHandler({...activeContext,contextObject: {bookId: comment.bookId}, action: 'comments'})
+                changeContextHandler({...activeContext,contextObject: {book: comment.book}, action: 'comments'})
             );
          }
      } else {
-         changeContextHandler({...activeContext,contextObject: {bookId: comment.bookId}, action: 'comments' });
+         changeContextHandler({...activeContext,contextObject: {book: comment.book}, action: 'comments' });
      }
 }
 
 function validation(editedComment) {
-    const commentValidation = {
-        text: !(editedComment?.text?.length > 0)
+    return {
+        count: Object.values(editedComment).filter(field => !field).length
     };
-    commentValidation.count = Object.values(commentValidation).filter(field => field).length;
-    return commentValidation;
 }

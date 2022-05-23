@@ -3,17 +3,17 @@ import { CommentListItem } from "./CommentListItem";
 import {getComments, deleteComment} from "../comment/CommentApi";
 
 export function CommentList({activeContext, changeContextHandler}) {
-    const bookId = activeContext.contextObject.bookId;
+    const book = activeContext.contextObject.book;
     const [comments,setComments] = React.useState([]);
     useEffect(() => {
-        getComments(bookId).then((comments) => {
+        getComments(book.id).then((comments) => {
             setComments(comments);
         });
     },[]);
     return <div id="comment-list">
         <div className="list-block-item-control-block">
             <span className="link-action detail-point list-block-item-control-first" href=""
-            onClick={()=> changeContextHandler({...activeContext,action: 'comment-edit',contextObject: {bookId: bookId}})}>
+            onClick={()=> changeContextHandler({...activeContext,action: 'comment-edit',contextObject: {book: book}})}>
                 Добавить комментарий
             </span>
             <span className="link-action step-back-point list-block-item-control-second" href="" onClick={()=>{
@@ -31,7 +31,7 @@ export function CommentList({activeContext, changeContextHandler}) {
                 console.log("start delete comment");
                 deleteComment(comment)
                     .then(() => {
-                        getComments(bookId)
+                        getComments(book.id)
                         .then((listComments) => {
                             console.log("set new comment list");
                             setComments(listComments);

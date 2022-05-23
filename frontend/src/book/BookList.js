@@ -28,7 +28,7 @@ export function BookList({activeContext, changeContextHandler}) {
                             });
                     })
             }}
-            onCommentsHandler={(book)=> changeContextHandler({...activeContext,contextObject: {bookId: book.id},action: 'comments'})}
+            onCommentsHandler={(book)=> changeContextHandler({...activeContext,contextObject: {book: book},action: 'comments'})}
             />)
         }
     </div>

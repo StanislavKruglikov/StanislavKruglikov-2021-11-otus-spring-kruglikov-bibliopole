@@ -11,10 +11,10 @@ export function GenreComboBox({id, name, selectValue, onSelectHandler}) {
 
     return <select id={id} name={name} value={selectValue} onChange={onSelectHandler}>
             { genres.map(genre => {
-                return <option key={genre.id} className="genre" value={genre.id}>
+                return <option key={genre.id} className="genre" value={genre.id} data={JSON.stringify(genre)}>
                     {genre.name}
                 </option>;
             })}
-            <option className="author" value="0">...</option>
+            <option className="author" value="">...</option>
         </select>
 }

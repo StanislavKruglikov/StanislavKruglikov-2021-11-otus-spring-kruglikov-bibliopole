@@ -1,20 +1,15 @@
 package ru.otus.skruglikov.bibliopole.domain;
 
 import lombok.*;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "genre")
+@Document(collection = "genre")
 public class Genre {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "name", unique = true, nullable = false)
+    private String id;
     private String name;
 }
